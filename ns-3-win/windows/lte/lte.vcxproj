@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F6B993B6-FBE8-4D5F-A931-5354D89BD818}</ProjectGuid>
+    <RootNamespace>lte</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(SolutionDir)$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\ns-3-debug-headers;$(SolutionDir)\winport</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;NS3_LOG_ENABLE;NS3_ASSERT_ENABLE</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)..\src\$(ProjectName)\examples\*.cc"  "$(SolutionDir)examples_all"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\lte\helper\lte-helper.cc" />
+    <ClCompile Include="..\..\src\lte\model\amc-module.cc" />
+    <ClCompile Include="..\..\src\lte\model\bearer-qos-parameters.cc" />
+    <ClCompile Include="..\..\src\lte\model\channel-realization.cc" />
+    <ClCompile Include="..\..\src\lte\model\discrete-time-loss-model.cc" />
+    <ClCompile Include="..\..\src\lte\model\enb-lte-spectrum-phy.cc" />
+    <ClCompile Include="..\..\src\lte\model\enb-mac-entity.cc" />
+    <ClCompile Include="..\..\src\lte\model\enb-net-device.cc" />
+    <ClCompile Include="..\..\src\lte\model\enb-phy.cc" />
+    <ClCompile Include="..\..\src\lte\model\ideal-control-messages.cc" />
+    <ClCompile Include="..\..\src\lte\model\jakes-fading-loss-model.cc" />
+    <ClCompile Include="..\..\src\lte\model\lte-mac-header.cc" />
+    <ClCompile Include="..\..\src\lte\model\lte-mac-queue.cc" />
+    <ClCompile Include="..\..\src\lte\model\lte-net-device.cc" />
+    <ClCompile Include="..\..\src\lte\model\lte-phy.cc" />
+    <ClCompile Include="..\..\src\lte\model\lte-propagation-loss-model.cc" />
+    <ClCompile Include="..\..\src\lte\model\lte-spectrum-phy.cc" />
+    <ClCompile Include="..\..\src\lte\model\lte-spectrum-value-helper.cc" />
+    <ClCompile Include="..\..\src\lte\model\mac-entity.cc" />
+    <ClCompile Include="..\..\src\lte\model\packet-scheduler.cc" />
+    <ClCompile Include="..\..\src\lte\model\path-loss-model.cc" />
+    <ClCompile Include="..\..\src\lte\model\penetration-loss-model.cc" />
+    <ClCompile Include="..\..\src\lte\model\radio-bearer-instance.cc" />
+    <ClCompile Include="..\..\src\lte\model\rlc-entity.cc" />
+    <ClCompile Include="..\..\src\lte\model\rrc-entity.cc" />
+    <ClCompile Include="..\..\src\lte\model\shadowing-loss-model.cc" />
+    <ClCompile Include="..\..\src\lte\model\simple-packet-scheduler.cc" />
+    <ClCompile Include="..\..\src\lte\model\ue-lte-spectrum-phy.cc" />
+    <ClCompile Include="..\..\src\lte\model\ue-mac-entity.cc" />
+    <ClCompile Include="..\..\src\lte\model\ue-manager.cc" />
+    <ClCompile Include="..\..\src\lte\model\ue-net-device.cc" />
+    <ClCompile Include="..\..\src\lte\model\ue-phy.cc" />
+    <ClCompile Include="..\..\src\lte\model\ue-record.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\lte\helper\lte-helper.h" />
+    <ClInclude Include="..\..\src\lte\model\amc-module.h" />
+    <ClInclude Include="..\..\src\lte\model\bearer-qos-parameters.h" />
+    <ClInclude Include="..\..\src\lte\model\channel-realization.h" />
+    <ClInclude Include="..\..\src\lte\model\discrete-time-loss-model.h" />
+    <ClInclude Include="..\..\src\lte\model\enb-lte-spectrum-phy.h" />
+    <ClInclude Include="..\..\src\lte\model\enb-mac-entity.h" />
+    <ClInclude Include="..\..\src\lte\model\enb-net-device.h" />
+    <ClInclude Include="..\..\src\lte\model\enb-phy.h" />
+    <ClInclude Include="..\..\src\lte\model\ideal-control-messages.h" />
+    <ClInclude Include="..\..\src\lte\model\jakes-fading-loss-model.h" />
+    <ClInclude Include="..\..\src\lte\model\jakes-fading-realizations.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v0_M10.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v0_M12.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v0_M6.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v0_M8.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v120_M10.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v120_M12.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v120_M6.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v120_M8.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v30_M10.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v30_M12.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v30_M6.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v30_M8.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v3_M10.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v3_M12.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v3_M6.h" />
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v3_M8.h" />
+    <ClInclude Include="..\..\src\lte\model\lte-mac-header.h" />
+    <ClInclude Include="..\..\src\lte\model\lte-mac-queue.h" />
+    <ClInclude Include="..\..\src\lte\model\lte-net-device.h" />
+    <ClInclude Include="..\..\src\lte\model\lte-phy.h" />
+    <ClInclude Include="..\..\src\lte\model\lte-propagation-loss-model.h" />
+    <ClInclude Include="..\..\src\lte\model\lte-spectrum-phy.h" />
+    <ClInclude Include="..\..\src\lte\model\lte-spectrum-value-helper.h" />
+    <ClInclude Include="..\..\src\lte\model\mac-entity.h" />
+    <ClInclude Include="..\..\src\lte\model\packet-scheduler.h" />
+    <ClInclude Include="..\..\src\lte\model\path-loss-model.h" />
+    <ClInclude Include="..\..\src\lte\model\penetration-loss-model.h" />
+    <ClInclude Include="..\..\src\lte\model\radio-bearer-instance.h" />
+    <ClInclude Include="..\..\src\lte\model\rlc-entity.h" />
+    <ClInclude Include="..\..\src\lte\model\rrc-entity.h" />
+    <ClInclude Include="..\..\src\lte\model\shadowing-loss-model.h" />
+    <ClInclude Include="..\..\src\lte\model\simple-packet-scheduler.h" />
+    <ClInclude Include="..\..\src\lte\model\ue-lte-spectrum-phy.h" />
+    <ClInclude Include="..\..\src\lte\model\ue-mac-entity.h" />
+    <ClInclude Include="..\..\src\lte\model\ue-manager.h" />
+    <ClInclude Include="..\..\src\lte\model\ue-net-device.h" />
+    <ClInclude Include="..\..\src\lte\model\ue-phy.h" />
+    <ClInclude Include="..\..\src\lte\model\ue-record.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

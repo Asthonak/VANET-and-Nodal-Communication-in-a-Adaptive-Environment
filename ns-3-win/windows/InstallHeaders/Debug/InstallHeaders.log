@@ -1,0 +1,819 @@
+﻿Build started 4/26/2019 1:47:59 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\InstallHeaders\InstallHeaders.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\InstallHeaders.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       PostBuildEvent:
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\bridge\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\bridge\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\click\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\click\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma-layout\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma-layout\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\dsdv\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\dsdv\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\helper\dot11s\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\flame\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\helper\flame\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mpi\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mpi\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\netanim\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\netanim\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\nix-vector-routing\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\nix-vector-routing\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\olsr\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\olsr\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\openflow\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\openflow\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point-layout\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point-layout\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\propagation\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\propagation\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\tools\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\tools\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\topology-read\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\topology-read\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\virtual-net-device\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\virtual-net-device\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\helper\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\core-config.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\netanim-config.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\*.h"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers\ns3"
+         
+         
+         
+         :VCEnd
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\model\aodv-dpd.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\model\aodv-id-cache.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\model\aodv-neighbor.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\model\aodv-packet.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\model\aodv-routing-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\model\aodv-rqueue.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\model\aodv-rtable.h
+                 7 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\aodv\helper\aodv-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\bulk-send-application.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\onoff-application.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\packet-loss-counter.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\packet-sink.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\ping6.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\radvd-interface.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\radvd-prefix.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\radvd.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\seq-ts-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\udp-client.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\udp-echo-client.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\udp-echo-server.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\udp-server.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\udp-trace-client.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\model\v4ping.h
+                15 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\helper\bulk-send-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\helper\on-off-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\helper\packet-sink-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\helper\ping6-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\helper\udp-client-server-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\helper\udp-echo-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\applications\helper\v4ping-helper.h
+                 7 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\bridge\model\bridge-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\bridge\model\bridge-net-device.h
+                 2 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\bridge\helper\bridge-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\click\model\ipv4-click-routing.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\click\model\ipv4-l3-click-protocol.h
+                 2 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\click\helper\click-internet-stack-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\abort.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\assert.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\attribute-accessor-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\attribute-construction-list.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\attribute-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\attribute.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\boolean.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\breakpoint.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\cairo-wideint-private.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\calendar-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\callback.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\command-line.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\config.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\default-deleter.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\default-simulator-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\deprecated.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\double.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\empty.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\enum.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\event-id.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\event-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\fatal-error.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\fatal-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\global-value.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\heap-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\int-to-type.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\int64x64-128.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\int64x64-cairo.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\int64x64-double.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\int64x64.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\integer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\list-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\log.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\make-event.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\map-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\names.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\ns2-calendar-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\nstime.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\object-base.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\object-factory.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\object-map.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\object-ptr-container.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\object-vector.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\object.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\pointer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\ptr.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\random-variable.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\realtime-simulator-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\ref-count-base.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\rng-stream.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\simple-ref-count.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\simulation-singleton.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\simulator-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\simulator.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\singleton.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\string.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\synchronizer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\system-condition.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\system-mutex.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\system-path.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\system-thread.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\system-wall-clock-ms.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\test.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\timer-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\timer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\trace-source-accessor.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\traced-callback.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\traced-value.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\type-id.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\type-name.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\type-traits.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\uinteger.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\unix-fd-reader.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\vector.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\wall-clock-synchronizer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\core\model\watchdog.h
+                77 file(s) copied.
+         The system cannot find the path specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma\model\backoff.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma\model\csma-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma\model\csma-net-device.h
+                 3 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma\helper\csma-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\csma-layout\model\csma-star-helper.h
+                 1 file(s) copied.
+         The system cannot find the path specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\dsdv\model\dsdv-packet-queue.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\dsdv\model\dsdv-packet.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\dsdv\model\dsdv-routing-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\dsdv\model\dsdv-rtable.h
+                 4 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\dsdv\helper\dsdv-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\basic-energy-source.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\device-energy-model-container.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\device-energy-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\energy-source.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\li-ion-energy-source.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\rv-battery-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\simple-device-energy-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\model\wifi-radio-energy-model.h
+                 8 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\helper\basic-energy-source-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\helper\energy-model-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\helper\energy-source-container.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\helper\rv-battery-model-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\energy\helper\wifi-radio-energy-model-helper.h
+                 5 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\model\flow-classifier.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\model\flow-monitor.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\model\flow-probe.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\model\histogram.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\model\ipv4-flow-classifier.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\model\ipv4-flow-probe.h
+                 6 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\flow-monitor\helper\flow-monitor-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\arp-cache.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\arp-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\arp-l3-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\candidate-queue.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\global-route-manager-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\global-route-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\global-router-interface.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\global-routing.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\icmpv4-l4-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\icmpv4.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\icmpv6-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\icmpv6-l4-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-address-generator.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-end-point-demux.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-end-point.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-global-routing.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-interface-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-interface.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-l3-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-l4-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-list-routing.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-packet-info-tag.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-raw-socket-factory-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-raw-socket-factory.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-raw-socket-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-route.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-routing-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-routing-table-entry.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4-static-routing.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv4.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-autoconfigured-prefix.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-end-point-demux.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-end-point.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-extension-demux.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-extension-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-extension.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-interface-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-interface.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-l3-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-l4-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-list-routing.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-option-demux.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-option-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-option.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-packet-info-tag.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-raw-socket-factory-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-raw-socket-factory.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-raw-socket-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-route.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-routing-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-routing-table-entry.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6-static-routing.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ipv6.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\loopback-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\ndisc-cache.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\nsc-sysctl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\nsc-tcp-l4-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\nsc-tcp-socket-factory-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\nsc-tcp-socket-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\pending-data.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\rtt-estimator.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\sim_errno.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\sim_interface.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-l4-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-newreno.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-reno.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-rfc793.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-rx-buffer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-socket-base.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-socket-factory-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-socket-factory.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-socket.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-tahoe.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\tcp-tx-buffer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\udp-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\udp-l4-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\udp-socket-factory-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\udp-socket-factory.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\udp-socket-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\model\udp-socket.h
+                83 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\internet-stack-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\internet-trace-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv4-address-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv4-global-routing-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv4-interface-container.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv4-list-routing-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv4-routing-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv4-static-routing-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv6-address-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv6-interface-container.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv6-list-routing-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv6-routing-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\internet\helper\ipv6-static-routing-helper.h
+                13 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\amc-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\bearer-qos-parameters.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\channel-realization.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\discrete-time-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\enb-lte-spectrum-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\enb-mac-entity.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\enb-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\enb-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\ideal-control-messages.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\jakes-fading-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\jakes-fading-realizations.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\lte-mac-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\lte-mac-queue.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\lte-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\lte-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\lte-propagation-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\lte-spectrum-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\lte-spectrum-value-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\mac-entity.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\packet-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\path-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\penetration-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\radio-bearer-instance.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\rlc-entity.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\rrc-entity.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\shadowing-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\simple-packet-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\ue-lte-spectrum-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\ue-mac-entity.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\ue-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\ue-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\ue-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\model\ue-record.h
+                33 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\lte\helper\lte-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\mesh-information-element-vector.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\mesh-information-element.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\mesh-l2-routing-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\mesh-point-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\mesh-wifi-beacon.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\mesh-wifi-interface-mac-plugin.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\mesh-wifi-interface-mac.h
+                 7 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\helper\mesh-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\helper\mesh-stack-installer.h
+                 2 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\airtime-metric.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\dot11s-mac-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\dot11s.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\hwmp-protocol-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\hwmp-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\hwmp-rtable.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\hwmp-tag.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-beacon-timing.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-configuration.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-id.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-metric-report.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-peer-management.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-peering-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-perr.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-prep.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-preq.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\ie-dot11s-rann.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\peer-link-frame.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\peer-link.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\peer-management-protocol-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\dot11s\peer-management-protocol.h
+                21 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\helper\dot11s\dot11s-installer.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\flame\flame-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\flame\flame-protocol-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\flame\flame-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\model\flame\flame-rtable.h
+                 4 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mesh\helper\flame\flame-installer.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\box.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\constant-acceleration-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\constant-position-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\constant-velocity-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\constant-velocity-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\gauss-markov-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\hierarchical-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\mobility.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\position-allocator.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\random-direction-2d-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\random-walk-2d-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\random-waypoint-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\rectangle.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\steady-state-random-waypoint-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\waypoint-mobility-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\model\waypoint.h
+                17 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\helper\mobility-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mobility\helper\ns2-mobility-helper.h
+                 2 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mpi\model\distributed-simulator-impl.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mpi\model\mpi-interface.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\mpi\model\mpi-receiver.h
+                 3 file(s) copied.
+         The system cannot find the path specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\netanim\model\animation-interface.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\netanim\helper\animation-interface-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\application.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\buffer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\byte-tag-list.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\channel-list.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\chunk.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\nix-vector.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\node-list.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\node.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\packet-metadata.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\packet-tag-list.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\packet.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\socket-factory.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\socket.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\tag-buffer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\tag.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\model\trailer.h
+                20 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\helper\application-container.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\helper\net-device-container.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\helper\node-container.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\helper\packet-socket-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\helper\trace-helper.h
+                 5 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\address-utils.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\data-rate.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\drop-tail-queue.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\error-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\ethernet-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\ethernet-trailer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\flow-id-tag.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\generic-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\inet-socket-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\inet6-socket-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\ipv4-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\ipv6-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\llc-snap-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\mac48-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\mac64-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\output-stream-wrapper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\packet-burst.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\packet-socket-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\packet-socket-factory.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\packet-socket.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\packetbb.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\pcap-file-wrapper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\pcap-file.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\pcap-test.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\queue.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\radiotap-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\sequence-number.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\sgi-hashmap.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\simple-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\network\utils\simple-net-device.h
+                30 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\nix-vector-routing\model\ipv4-nix-vector-routing.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\nix-vector-routing\helper\ipv4-nix-vector-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\olsr\model\olsr-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\olsr\model\olsr-repositories.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\olsr\model\olsr-routing-protocol.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\olsr\model\olsr-state.h
+                 4 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\olsr\helper\olsr-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\openflow\model\openflow-interface.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\openflow\model\openflow-switch-net-device.h
+                 2 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\openflow\helper\openflow-switch-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point\model\point-to-point-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point\model\point-to-point-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point\model\point-to-point-remote-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point\model\ppp-header.h
+                 4 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point\helper\point-to-point-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point-layout\model\point-to-point-dumbbell.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point-layout\model\point-to-point-grid.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\point-to-point-layout\model\point-to-point-star.h
+                 3 file(s) copied.
+         The system cannot find the path specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\propagation\model\cost231-propagation-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\propagation\model\jakes-propagation-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\propagation\model\propagation-delay-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\propagation\model\propagation-loss-model.h
+                 4 file(s) copied.
+         The system cannot find the path specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\aloha-noack-mac-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\aloha-noack-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\friis-spectrum-propagation-loss.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\half-duplex-ideal-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\microwave-oven-spectrum-value-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\multi-model-spectrum-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\non-communicating-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\single-model-spectrum-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-analyzer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-converter.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-error-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-interference.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-model-300kHz-300GHz-log.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-model-ism2400MHz-res1MHz.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-propagation-loss-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-type.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\spectrum-value.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\waveform-generator.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\model\wifi-spectrum-value-helper.h
+                22 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\helper\adhoc-aloha-noack-ideal-phy-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\helper\spectrum-analyzer-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\helper\spectrum-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\spectrum\helper\waveform-generator-helper.h
+                 4 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\basic-data-calculators.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\data-calculator.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\data-collector.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\data-output-interface.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\omnet-data-output.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\packet-data-calculators.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\sqlite-data-output.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\stats\model\time-data-calculators.h
+                 8 file(s) copied.
+         The system cannot find the path specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\tools\model\average.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\tools\model\delay-jitter-estimation.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\tools\model\event-garbage-collector.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\tools\model\gnuplot.h
+                 4 file(s) copied.
+         The system cannot find the path specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\topology-read\model\inet-topology-reader.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\topology-read\model\orbis-topology-reader.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\topology-read\model\rocketfuel-topology-reader.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\topology-read\model\topology-reader.h
+                 4 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\topology-read\helper\topology-reader-helper.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\acoustic-modem-energy-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-address.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-header-common.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-header-rc.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-mac-aloha.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-mac-cw.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-mac-rc-gw.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-mac-rc.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-noise-model-default.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-noise-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-phy-dual.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-phy-gen.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-prop-model-ideal.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-prop-model-thorp.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-prop-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-transducer-hd.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-transducer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\model\uan-tx-mode.h
+                22 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\helper\acoustic-modem-energy-model-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\uan\helper\uan-helper.h
+                 2 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\virtual-net-device\model\virtual-net-device.h
+                 1 file(s) copied.
+         The system cannot find the path specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\aarf-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\aarfcd-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\adhoc-wifi-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\amrr-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\amsdu-subframe-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\ap-wifi-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\arf-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\block-ack-agreement.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\block-ack-cache.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\block-ack-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\capability-information.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\cara-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\constant-rate-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\ctrl-headers.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\dca-txop.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\dcf-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\dcf.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\dsss-error-rate-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\edca-txop-n.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\error-rate-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\ideal-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\interference-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\mac-low.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\mac-rx-middle.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\mac-tx-middle.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\mgt-headers.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\minstrel-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\msdu-aggregator.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\msdu-standard-aggregator.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\nist-error-rate-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\onoe-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\originator-block-ack-agreement.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\qos-blocked-destinations.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\qos-tag.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\qos-utils.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\random-stream.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\regular-wifi-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\rraa-wifi-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\ssid.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\sta-wifi-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\status-code.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\supported-rates.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-information-element-vector.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-information-element.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-mac-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-mac-queue.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-mac-trailer.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-mac.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-mode.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-phy-standard.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-phy-state-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-preamble.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\wifi-remote-station-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\yans-error-rate-model.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\yans-wifi-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\model\yans-wifi-phy.h
+                59 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\helper\athstats-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\helper\nqos-wifi-mac-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\helper\qos-wifi-mac-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\helper\wifi-helper.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wifi\helper\yans-wifi-helper.h
+                 5 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bandwidth-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-link-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-scheduler-rtps.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-scheduler-simple.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-service-flow-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-uplink-scheduler-mbqos.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-uplink-scheduler-rtps.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-uplink-scheduler-simple.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bs-uplink-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\burst-profile-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\bvec.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\cid-factory.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\cid.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\connection-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\crc8.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\cs-parameters.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\default-traces.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\dl-mac-messages.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ipcs-classifier-record.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ipcs-classifier.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\mac-messages.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ofdm-downlink-frame-prefix.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\send-params.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\service-flow-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\service-flow-record.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\service-flow.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\simple-ofdm-send-param.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\simple-ofdm-wimax-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\simple-ofdm-wimax-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\snr-to-block-error-rate-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\snr-to-block-error-rate-record.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ss-link-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ss-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ss-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ss-record.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ss-scheduler.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ss-service-flow-manager.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ul-job.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\ul-mac-messages.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\wimax-channel.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\wimax-connection.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\wimax-mac-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\wimax-mac-queue.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\wimax-mac-to-mac-header.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\wimax-net-device.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\wimax-phy.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\model\wimax-tlv.h
+                49 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\..\src\wimax\helper\wimax-helper.h
+                 1 file(s) copied.
+                 1 file(s) copied.
+         The system cannot find the file specified.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\amc-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\aodv-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\applications-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\bridge-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\click-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\config-store-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\core-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\csma-layout-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\csma-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\dsdv-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\emu-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\energy-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\flow-monitor-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\internet-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\lte-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\mesh-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\mobility-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\mpi-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\netanim-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\network-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\nix-vector-routing-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\ns3tcp-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\ns3wifi-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\olsr-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\point-to-point-layout-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\point-to-point-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\propagation-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\spectrum-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\stats-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\tap-bridge-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\tools-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\topology-read-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\uan-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\virtual-net-device-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\wifi-module.h
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport\module-headers\wimax-module.h
+                36 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "Debug\InstallHeaders.unsuccessfulbuild".
+         Touching "Debug\InstallHeaders.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\InstallHeaders\InstallHeaders.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.86

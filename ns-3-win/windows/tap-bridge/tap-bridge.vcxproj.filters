@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="model">
+      <UniqueIdentifier>{90aad4f7-9003-4601-a641-4bde482d59ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="helper">
+      <UniqueIdentifier>{336b86c6-cc1f-402c-93a0-6ac9bcaacf79}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\tap-bridge\model\tap-bridge.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tap-bridge\model\tap-creator.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tap-bridge\model\tap-encode-decode.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tap-bridge\helper\tap-bridge-helper.cc">
+      <Filter>helper</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\tap-bridge\model\tap-bridge.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\tap-bridge\model\tap-encode-decode.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\tap-bridge\helper\tap-bridge-helper.h">
+      <Filter>helper</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

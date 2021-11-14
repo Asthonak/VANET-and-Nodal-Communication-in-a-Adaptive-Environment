@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="model">
+      <UniqueIdentifier>{dc798566-599b-420f-847d-8b105372cc90}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\propagation\model\cost231-propagation-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\propagation\model\jakes-propagation-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\propagation\model\propagation-delay-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\propagation\model\propagation-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\propagation\model\cost231-propagation-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\propagation\model\jakes-propagation-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\propagation\model\propagation-delay-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\propagation\model\propagation-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

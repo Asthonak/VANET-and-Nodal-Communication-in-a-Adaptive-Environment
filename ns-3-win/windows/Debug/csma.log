@@ -1,0 +1,27 @@
+﻿Build started 4/26/2019 1:51:44 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\csma\csma.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\csma.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Lib:
+         All outputs are up-to-date.
+         csma.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\csma.lib
+       PostBuildEvent:
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\csma\examples\*.cc"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\examples_all"
+         :VCEnd
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\csma\examples\csma-broadcast.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\csma\examples\csma-multicast.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\csma\examples\csma-one-subnet.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\csma\examples\csma-packet-socket.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\csma\examples\csma-ping.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\csma\examples\csma-raw-ip-socket.cc
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\csma.unsuccessfulbuild".
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\csma.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\csma\csma.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.13

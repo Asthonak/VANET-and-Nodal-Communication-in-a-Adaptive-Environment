@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="model">
+      <UniqueIdentifier>{4591bb1b-878c-435a-b4dd-88bf812fdb1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="helper">
+      <UniqueIdentifier>{b389b698-9d7c-4b2b-b065-9d11acecdee9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\aodv\model\aodv-dpd.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\aodv\model\aodv-id-cache.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\aodv\model\aodv-neighbor.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\aodv\model\aodv-packet.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\aodv\model\aodv-routing-protocol.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\aodv\model\aodv-rqueue.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\aodv\model\aodv-rtable.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\aodv\helper\aodv-helper.cc">
+      <Filter>helper</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\aodv\model\aodv-dpd.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\aodv\model\aodv-id-cache.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\aodv\model\aodv-neighbor.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\aodv\model\aodv-packet.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\aodv\model\aodv-routing-protocol.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\aodv\model\aodv-rqueue.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\aodv\model\aodv-rtable.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\aodv\helper\aodv-helper.h">
+      <Filter>helper</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

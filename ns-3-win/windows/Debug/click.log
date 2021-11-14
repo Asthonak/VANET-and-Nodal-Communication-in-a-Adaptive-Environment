@@ -1,0 +1,26 @@
+﻿Build started 4/26/2019 1:51:44 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\click\click.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\click.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Lib:
+         All outputs are up-to-date.
+         click.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\click.lib
+       PostBuildEvent:
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\click\examples\*.cc"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\examples_all"
+         :VCEnd
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\click\examples\nsclick-raw-wlan.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\click\examples\nsclick-routing.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\click\examples\nsclick-simple-lan.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\click\examples\nsclick-udp-client-server-csma.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\click\examples\nsclick-udp-client-server-wifi.cc
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\click.unsuccessfulbuild".
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\click.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\click\click.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.11

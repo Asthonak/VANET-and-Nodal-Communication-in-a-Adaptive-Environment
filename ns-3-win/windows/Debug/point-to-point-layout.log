@@ -1,0 +1,17 @@
+﻿Build started 4/26/2019 1:51:43 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\point-to-point-layout\point-to-point-layout.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\point-to-point-layout.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Lib:
+         All outputs are up-to-date.
+         point-to-point-layout.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\point-to-point-layout.lib
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\point-to-point-layout.unsuccessfulbuild".
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\point-to-point-layout.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\point-to-point-layout\point-to-point-layout.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.04

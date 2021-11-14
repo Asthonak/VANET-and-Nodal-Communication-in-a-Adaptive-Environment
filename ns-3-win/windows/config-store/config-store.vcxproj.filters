@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="model">
+      <UniqueIdentifier>{84a0ad53-7795-4560-b9ae-e5de9003ed58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="helper">
+      <UniqueIdentifier>{67dc918a-aede-4f0f-8169-dc73ddbee49d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\config-store\model\attribute-default-iterator.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\attribute-iterator.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\config-store.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\display-functions.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\file-config.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\gtk-config-store.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\model-node-creator.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\model-typeid-creator.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\raw-text-config.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\config-store\model\xml-config.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\config-store\model\attribute-default-iterator.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\attribute-iterator.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\config-store.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\display-functions.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\file-config.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\gtk-config-store.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\model-node-creator.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\model-typeid-creator.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\raw-text-config.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\config-store\model\xml-config.h">
+      <Filter>model</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

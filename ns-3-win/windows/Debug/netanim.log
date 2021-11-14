@@ -1,0 +1,24 @@
+﻿Build started 4/26/2019 1:51:44 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\netanim\netanim.vcxproj" on node 8 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\netanim.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Lib:
+         All outputs are up-to-date.
+         netanim.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\netanim.lib
+       PostBuildEvent:
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\netanim\examples\*.cc"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\examples_all"
+         :VCEnd
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\netanim\examples\dumbbell-animation.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\netanim\examples\grid-animation.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\netanim\examples\star-animation.cc
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\netanim.unsuccessfulbuild".
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\netanim.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\netanim\netanim.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.12

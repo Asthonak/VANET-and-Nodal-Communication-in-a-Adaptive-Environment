@@ -1,0 +1,22 @@
+﻿Build started 4/26/2019 1:51:43 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\openflow\openflow.vcxproj" on node 6 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\openflow.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Lib:
+         All outputs are up-to-date.
+         openflow.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\openflow.lib
+       PostBuildEvent:
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\openflow\examples\*.cc"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\examples_all"
+         :VCEnd
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\openflow\examples\openflow-switch.cc
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\openflow.unsuccessfulbuild".
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\openflow.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\openflow\openflow.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.11

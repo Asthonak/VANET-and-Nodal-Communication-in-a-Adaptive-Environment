@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="model">
+      <UniqueIdentifier>{af83395a-2d87-42cb-b380-1149963928ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="helper">
+      <UniqueIdentifier>{5d451c1c-3241-4fb6-85e3-383df9392bb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\JakesTraces">
+      <UniqueIdentifier>{cf34305a-daae-4c5f-a7a5-41122141ef60}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\lte\model\amc-module.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\bearer-qos-parameters.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\channel-realization.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\discrete-time-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\enb-lte-spectrum-phy.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\enb-mac-entity.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\enb-net-device.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\enb-phy.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\ideal-control-messages.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\jakes-fading-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\lte-mac-header.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\lte-mac-queue.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\lte-net-device.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\lte-phy.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\lte-propagation-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\lte-spectrum-phy.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\lte-spectrum-value-helper.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\mac-entity.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\packet-scheduler.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\path-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\penetration-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\radio-bearer-instance.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\rlc-entity.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\rrc-entity.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\shadowing-loss-model.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\simple-packet-scheduler.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\ue-lte-spectrum-phy.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\ue-mac-entity.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\ue-manager.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\ue-net-device.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\ue-phy.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\model\ue-record.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lte\helper\lte-helper.cc">
+      <Filter>helper</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\lte\model\amc-module.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\bearer-qos-parameters.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\channel-realization.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\discrete-time-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\enb-lte-spectrum-phy.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\enb-mac-entity.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\enb-net-device.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\enb-phy.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\ideal-control-messages.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\jakes-fading-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\jakes-fading-realizations.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\lte-mac-header.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\lte-mac-queue.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\lte-net-device.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\lte-phy.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\lte-propagation-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\lte-spectrum-phy.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\lte-spectrum-value-helper.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\mac-entity.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\packet-scheduler.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\path-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\penetration-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\radio-bearer-instance.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\rlc-entity.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\rrc-entity.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\shadowing-loss-model.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\simple-packet-scheduler.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\ue-lte-spectrum-phy.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\ue-mac-entity.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\ue-manager.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\ue-net-device.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\ue-phy.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\ue-record.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\helper\lte-helper.h">
+      <Filter>helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v0_M6.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v0_M8.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v0_M10.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v0_M12.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v3_M6.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v3_M8.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v3_M10.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v3_M12.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v30_M6.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v30_M8.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v30_M10.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v30_M12.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v120_M6.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v120_M8.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v120_M10.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lte\model\JakesTraces\multipath_v120_M12.h">
+      <Filter>model\JakesTraces</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

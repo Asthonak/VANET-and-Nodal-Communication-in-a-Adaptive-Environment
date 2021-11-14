@@ -1,0 +1,22 @@
+﻿Build started 4/26/2019 1:51:43 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\point-to-point\point-to-point.vcxproj" on node 5 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\point-to-point.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Lib:
+         All outputs are up-to-date.
+         point-to-point.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\point-to-point.lib
+       PostBuildEvent:
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\point-to-point\examples\*.cc"  "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\examples_all"
+         :VCEnd
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\src\point-to-point\examples\main-attribute-value.cc
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\point-to-point.unsuccessfulbuild".
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\point-to-point.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\point-to-point\point-to-point.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.15

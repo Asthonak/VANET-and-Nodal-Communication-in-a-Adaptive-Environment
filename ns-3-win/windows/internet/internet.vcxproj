@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{47A5A292-A72F-4C3F-B984-D6074C46857E}</ProjectGuid>
+    <RootNamespace>internet</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(SolutionDir)$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\ns-3-debug-headers;$(SolutionDir)\winport</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WIN32;NS3_LOG_ENABLE;NS3_ASSERT_ENABLE</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)..\src\$(ProjectName)\examples\*.cc"  "$(SolutionDir)examples_all"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\internet\helper\internet-stack-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\internet-trace-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv4-address-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv4-global-routing-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv4-interface-container.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv4-list-routing-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv4-routing-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv4-static-routing-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv6-address-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv6-interface-container.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv6-list-routing-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv6-routing-helper.cc" />
+    <ClCompile Include="..\..\src\internet\helper\ipv6-static-routing-helper.cc" />
+    <ClCompile Include="..\..\src\internet\model\arp-cache.cc" />
+    <ClCompile Include="..\..\src\internet\model\arp-header.cc" />
+    <ClCompile Include="..\..\src\internet\model\arp-l3-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\candidate-queue.cc" />
+    <ClCompile Include="..\..\src\internet\model\global-route-manager-impl.cc" />
+    <ClCompile Include="..\..\src\internet\model\global-route-manager.cc" />
+    <ClCompile Include="..\..\src\internet\model\global-router-interface.cc" />
+    <ClCompile Include="..\..\src\internet\model\icmpv4-l4-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\icmpv4.cc" />
+    <ClCompile Include="..\..\src\internet\model\icmpv6-header.cc" />
+    <ClCompile Include="..\..\src\internet\model\icmpv6-l4-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-address-generator.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-end-point-demux.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-end-point.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-global-routing.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-header.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-interface-address.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-interface.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-l3-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-l4-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-list-routing.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-packet-info-tag.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-raw-socket-factory-impl.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-raw-socket-factory.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-raw-socket-impl.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-route.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-routing-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-routing-table-entry.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4-static-routing.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv4.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-autoconfigured-prefix.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-end-point-demux.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-end-point.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-extension-demux.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-extension-header.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-extension.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-header.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-interface-address.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-interface.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-l3-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-l4-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-list-routing.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-option-demux.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-option-header.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-option.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-packet-info-tag.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-raw-socket-factory-impl.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-raw-socket-factory.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-raw-socket-impl.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-route.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-routing-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-routing-table-entry.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6-static-routing.cc" />
+    <ClCompile Include="..\..\src\internet\model\ipv6.cc" />
+    <ClCompile Include="..\..\src\internet\model\loopback-net-device.cc" />
+    <ClCompile Include="..\..\src\internet\model\ndisc-cache.cc" />
+    <ClCompile Include="..\..\src\internet\model\pending-data.cc" />
+    <ClCompile Include="..\..\src\internet\model\rtt-estimator.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-header.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-l4-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-newreno.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-reno.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-rfc793.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-rx-buffer.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-socket-base.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-socket-factory-impl.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-socket-factory.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-socket.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-tahoe.cc" />
+    <ClCompile Include="..\..\src\internet\model\tcp-tx-buffer.cc" />
+    <ClCompile Include="..\..\src\internet\model\udp-header.cc" />
+    <ClCompile Include="..\..\src\internet\model\udp-l4-protocol.cc" />
+    <ClCompile Include="..\..\src\internet\model\udp-socket-factory-impl.cc" />
+    <ClCompile Include="..\..\src\internet\model\udp-socket-factory.cc" />
+    <ClCompile Include="..\..\src\internet\model\udp-socket-impl.cc" />
+    <ClCompile Include="..\..\src\internet\model\udp-socket.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\internet\helper\internet-stack-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\internet-trace-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv4-address-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv4-global-routing-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv4-interface-container.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv4-list-routing-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv4-routing-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv4-static-routing-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv6-address-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv6-interface-container.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv6-list-routing-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv6-routing-helper.h" />
+    <ClInclude Include="..\..\src\internet\helper\ipv6-static-routing-helper.h" />
+    <ClInclude Include="..\..\src\internet\model\arp-cache.h" />
+    <ClInclude Include="..\..\src\internet\model\arp-header.h" />
+    <ClInclude Include="..\..\src\internet\model\arp-l3-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\candidate-queue.h" />
+    <ClInclude Include="..\..\src\internet\model\global-route-manager-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\global-route-manager.h" />
+    <ClInclude Include="..\..\src\internet\model\global-router-interface.h" />
+    <ClInclude Include="..\..\src\internet\model\global-routing.h" />
+    <ClInclude Include="..\..\src\internet\model\icmpv4-l4-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\icmpv4.h" />
+    <ClInclude Include="..\..\src\internet\model\icmpv6-header.h" />
+    <ClInclude Include="..\..\src\internet\model\icmpv6-l4-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-address-generator.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-end-point-demux.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-end-point.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-global-routing.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-header.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-interface-address.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-interface.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-l3-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-l4-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-list-routing.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-packet-info-tag.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-raw-socket-factory-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-raw-socket-factory.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-raw-socket-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-route.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-routing-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-routing-table-entry.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4-static-routing.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv4.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-autoconfigured-prefix.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-end-point-demux.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-end-point.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-extension-demux.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-extension-header.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-extension.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-header.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-interface-address.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-interface.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-l3-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-l4-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-list-routing.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-option-demux.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-option-header.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-option.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-packet-info-tag.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-raw-socket-factory-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-raw-socket-factory.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-raw-socket-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-route.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-routing-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-routing-table-entry.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6-static-routing.h" />
+    <ClInclude Include="..\..\src\internet\model\ipv6.h" />
+    <ClInclude Include="..\..\src\internet\model\loopback-net-device.h" />
+    <ClInclude Include="..\..\src\internet\model\ndisc-cache.h" />
+    <ClInclude Include="..\..\src\internet\model\nsc-sysctl.h" />
+    <ClInclude Include="..\..\src\internet\model\nsc-tcp-l4-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\nsc-tcp-socket-factory-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\nsc-tcp-socket-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\pending-data.h" />
+    <ClInclude Include="..\..\src\internet\model\rtt-estimator.h" />
+    <ClInclude Include="..\..\src\internet\model\sim_errno.h" />
+    <ClInclude Include="..\..\src\internet\model\sim_interface.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-header.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-l4-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-newreno.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-reno.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-rfc793.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-rx-buffer.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-socket-base.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-socket-factory-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-socket-factory.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-socket.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-tahoe.h" />
+    <ClInclude Include="..\..\src\internet\model\tcp-tx-buffer.h" />
+    <ClInclude Include="..\..\src\internet\model\udp-header.h" />
+    <ClInclude Include="..\..\src\internet\model\udp-l4-protocol.h" />
+    <ClInclude Include="..\..\src\internet\model\udp-socket-factory-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\udp-socket-factory.h" />
+    <ClInclude Include="..\..\src\internet\model\udp-socket-impl.h" />
+    <ClInclude Include="..\..\src\internet\model\udp-socket.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

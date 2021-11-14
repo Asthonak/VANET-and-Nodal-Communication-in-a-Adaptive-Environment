@@ -1,0 +1,3419 @@
+/* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+//
+// This ns-3 example demonstrates the use of helper functions to ease 
+// the construction of simulation scenarios.
+// 
+// The simulation topology consists of a mixed wired and wireless
+// scenario in which a hierarchical mobility model is used.
+//
+// The simulation layout consists of N backbone routers interconnected
+// by an ad hoc wifi network.
+// Each backbone router also has a local 802.11 network and is connected
+// to a local LAN.  An additional set of (K-1) nodes are connected to
+// this backbone.  Finally, a local LAN is connected to each router
+// on the backbone, with L-1 additional hosts.
+//
+// The nodes are populated with TCP/IP stacks, and OLSR unicast routing
+// on the backbone.  An example UDP transfer is shown.  The simulator
+// be configured to output tcpdumps or traces from different nodes.
+//
+//
+//          +--------------------------------------------------------+
+//          |                                                        |
+//          |              802.11 ad hoc, ns-2 mobility              | 
+//          |                                                        |
+//          +--------------------------------------------------------+
+//                   |       o o o (N backbone routers)       |
+//               +--------+                               +--------+
+//     wired LAN | mobile |                     wired LAN | mobile |
+//    -----------| router |                    -----------| router |
+//               ---------                                ---------
+//                   |                                        |
+//          +----------------+                       +----------------+
+//          |     802.11     |                       |     802.11     |
+//          |   infra net    |                       |   infra net    |
+//          |   K-1 hosts    |                       |   K-1 hosts    |
+//          +----------------+                       +----------------+
+//
+// We'll send data from the first wired LAN node on the first wired LAN
+// to the last wireless STA on the last infrastructure net, thereby
+// causing packets to traverse CSMA to adhoc to infrastructure links
+// 
+// Note that certain mobility patterns may cause packet forwarding
+// to fail (if nodes become disconnected) 
+
+#include <fstream>
+#include <string>
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/applications-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/config-store-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/csma-module.h"
+#include "ns3/olsr-helper.h"
+#include "ns3/internet-module.h"
+
+using namespace ns3;
+
+//
+// Define logging keyword for this file
+//
+NS_LOG_COMPONENT_DEFINE ("MixedWireless");
+
+//
+// This function will be used below as a trace sink, if the command-line
+// argument or default value "useCourseChangeCallback" is set to true
+// 
+static void
+CourseChangeCallback (std::string path, Ptr<const MobilityModel> model)
+{
+  Vector position = model->GetPosition ();
+  std::cout << "CourseChange " << path << " x=" << position.x << ", y=" << position.y << ", z=" << position.z << std::endl;
+}
+
+int 
+main (int argc, char *argv[])
+{
+  //
+  // First, we declare and initialize a few local variables that control some 
+  // simulation parameters.
+  //
+  uint32_t backboneNodes = 10;
+  uint32_t infraNodes = 5;
+  uint32_t lanNodes = 5;
+  uint32_t stopTime = 10;
+  bool useCourseChangeCallback = false;
+  bool enableTracing = false;
+
+  //
+  // Simulation defaults are typically set next, before command line
+  // arguments are parsed.
+  //
+  Config::SetDefault ("ns3::OnOffApplication::PacketSize", StringValue ("210"));
+  Config::SetDefault ("ns3::OnOffApplication::DataRate", StringValue ("10kb/s"));
+
+  //
+  // For convenience, we add the local variables to the command line argument
+  // system so that they can be overridden with flags such as 
+  // "--backboneNodes=20"
+  //
+  CommandLine cmd;
+  cmd.AddValue ("backboneNodes", "number of backbone nodes", backboneNodes);
+  cmd.AddValue ("infraNodes", "number of leaf nodes", infraNodes);
+  cmd.AddValue ("lanNodes", "number of LAN nodes", lanNodes);
+  cmd.AddValue ("stopTime", "simulation stop time (seconds)", stopTime);
+  cmd.AddValue ("useCourseChangeCallback", "whether to enable course change tracing", useCourseChangeCallback);
+  cmd.AddValue ("enableTracing", "enable tracing", enableTracing);
+
+  //
+  // The system global variables and the local values added to the argument
+  // system can be overridden by command line arguments by using this call.
+  //
+  cmd.Parse (argc, argv);
+
+  /////////////////////////////////////////////////////////////////////////// 
+  //                                                                       //
+  // Construct the backbone                                                //
+  //                                                                       //
+  /////////////////////////////////////////////////////////////////////////// 
+
+  //
+  // Create a container to manage the nodes of the adhoc (backbone) network.
+  // Later we'll create the rest of the nodes we'll need.
+  //
+  NodeContainer backbone;
+  backbone.Create (backboneNodes);
+  //
+  // Create the backbone wifi net devices and install them into the nodes in 
+  // our container
+  //
+  WifiHelper wifi;
+  NqosWifiMacHelper mac = NqosWifiMacHelper::Default ();
+  mac.SetType ("ns3::AdhocWifiMac");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate54Mbps"));
+  YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default ();
+  YansWifiChannelHelper wifiChannel = YansWifiChannelHelper::Default ();
+  wifiPhy.SetChannel (wifiChannel.Create ());
+  NetDeviceContainer backboneDevices = wifi.Install (wifiPhy, mac, backbone);
+
+  // We enable OLSR (which will be consulted at a higher priority than
+  // the global routing) on the backbone ad hoc nodes
+  NS_LOG_INFO ("Enabling OLSR routing on all backbone nodes");
+  OlsrHelper olsr;
+  //
+  // Add the IPv4 protocol stack to the nodes in our container
+  //
+  InternetStackHelper internet;
+  internet.SetRoutingHelper (olsr); // has effect on the next Install ()
+  internet.Install (backbone);
+
+  // re-initialize for non-olsr routing.
+  internet.Reset ();
+
+  //
+  // Assign IPv4 addresses to the device drivers (actually to the associated
+  // IPv4 interfaces) we just created.
+  //
+  Ipv4AddressHelper ipAddrs;
+  ipAddrs.SetBase ("192.168.0.0", "255.255.255.0");
+  ipAddrs.Assign (backboneDevices);
+
+  //
+  // The ad-hoc network nodes need a mobility model so we aggregate one to 
+  // each of the nodes we just finished building.
+  //
+  MobilityHelper mobility;
+  Ptr<ListPositionAllocator> positionAlloc = 
+    CreateObject<ListPositionAllocator> ();
+  double x = 0.0;
+  for (uint32_t i = 0; i < backboneNodes; ++i)
+    {
+      positionAlloc->Add (Vector (x, 0.0, 0.0));
+      x += 5.0;
+    }
+  mobility.SetPositionAllocator (positionAlloc);
+  mobility.SetMobilityModel ("ns3::RandomDirection2dMobilityModel",
+                             "Bounds", RectangleValue (Rectangle (0, 20, 0, 20)),
+                             "Speed", RandomVariableValue (ConstantVariable (2)),
+                             "Pause", RandomVariableValue (ConstantVariable (0.2)));
+  mobility.Install (backbone);
+
+  /////////////////////////////////////////////////////////////////////////// 
+  //                                                                       //
+  // Construct the LANs                                                    //
+  //                                                                       //
+  /////////////////////////////////////////////////////////////////////////// 
+
+  // Reset the address base-- all of the CSMA networks will be in
+  // the "172.16 address space
+  ipAddrs.SetBase ("172.16.0.0", "255.255.255.0");
+
+
+  for (uint32_t i = 0; i < backboneNodes; ++i)
+    {
+      NS_LOG_INFO ("Configuring local area network for backbone node " << i);
+      //
+      // Create a container to manage the nodes of the LAN.  We need
+      // two containers here; one with all of the new nodes, and one
+      // with all of the nodes including new and existing nodes
+      //
+      NodeContainer newLanNodes;
+      newLanNodes.Create (lanNodes - 1);
+      // Now, create the container with all nodes on this link
+      NodeContainer lan (backbone.Get (i), newLanNodes);
+      //
+      // Create the CSMA net devices and install them into the nodes in our 
+      // collection.
+      //
+      CsmaHelper csma;
+      csma.SetChannelAttribute ("DataRate", 
+                                DataRateValue (DataRate (5000000)));
+      csma.SetChannelAttribute ("Delay", TimeValue (MilliSeconds (2)));
+      NetDeviceContainer lanDevices = csma.Install (lan);
+      //
+      // Add the IPv4 protocol stack to the new LAN nodes
+      //
+      internet.Install (newLanNodes);
+      //
+      // Assign IPv4 addresses to the device drivers (actually to the 
+      // associated IPv4 interfaces) we just created.
+      //
+      ipAddrs.Assign (lanDevices);
+      //
+      // Assign a new network prefix for the next LAN, according to the
+      // network mask initialized above
+      //
+      ipAddrs.NewNetwork ();
+    }
+
+  /////////////////////////////////////////////////////////////////////////// 
+  //                                                                       //
+  // Construct the mobile networks                                         //
+  //                                                                       //
+  /////////////////////////////////////////////////////////////////////////// 
+
+  // Reset the address base-- all of the 802.11 networks will be in
+  // the "10.0" address space
+  ipAddrs.SetBase ("10.0.0.0", "255.255.255.0");
+
+  for (uint32_t i = 0; i < backboneNodes; ++i)
+    {
+      NS_LOG_INFO ("Configuring wireless network for backbone node " << i);
+      //
+      // Create a container to manage the nodes of the LAN.  We need
+      // two containers here; one with all of the new nodes, and one
+      // with all of the nodes including new and existing nodes
+      //
+      NodeContainer stas;
+      stas.Create (infraNodes - 1);
+      // Now, create the container with all nodes on this link
+      NodeContainer infra (backbone.Get (i), stas);
+      //
+      // Create an infrastructure network
+      //
+      WifiHelper wifiInfra = WifiHelper::Default ();
+      NqosWifiMacHelper macInfra = NqosWifiMacHelper::Default ();
+      wifiPhy.SetChannel (wifiChannel.Create ());
+      // Create unique ssids for these networks
+      std::string ssidString ("wifi-infra");
+      std::stringstream ss;
+      ss << i;
+      ssidString += ss.str ();
+      Ssid ssid = Ssid (ssidString);
+      wifiInfra.SetRemoteStationManager ("ns3::ArfWifiManager");
+      // setup stas
+      macInfra.SetType ("ns3::StaWifiMac",
+                        "Ssid", SsidValue (ssid),
+                        "ActiveProbing", BooleanValue (false));
+      NetDeviceContainer staDevices = wifiInfra.Install (wifiPhy, macInfra, stas);
+      // setup ap.
+      macInfra.SetType ("ns3::ApWifiMac",
+                        "Ssid", SsidValue (ssid));
+      NetDeviceContainer apDevices = wifiInfra.Install (wifiPhy, macInfra, backbone.Get (i));
+      // Collect all of these new devices
+      NetDeviceContainer infraDevices (apDevices, staDevices);
+
+      // Add the IPv4 protocol stack to the nodes in our container
+      //
+      internet.Install (stas);
+      //
+      // Assign IPv4 addresses to the device drivers (actually to the associated
+      // IPv4 interfaces) we just created.
+      //
+      ipAddrs.Assign (infraDevices);
+      //
+      // Assign a new network prefix for each mobile network, according to 
+      // the network mask initialized above
+      //
+      ipAddrs.NewNetwork ();
+      //
+      // The new wireless nodes need a mobility model so we aggregate one 
+      // to each of the nodes we just finished building.
+      //
+      Ptr<ListPositionAllocator> subnetAlloc = 
+        CreateObject<ListPositionAllocator> ();
+      for (uint32_t j = 0; j < infra.GetN (); ++j)
+        {
+          subnetAlloc->Add (Vector (0.0, j, 0.0));
+        }
+      mobility.PushReferenceMobilityModel (backbone.Get (i));
+      mobility.SetPositionAllocator (subnetAlloc);
+      mobility.SetMobilityModel ("ns3::RandomDirection2dMobilityModel",
+                                 "Bounds", RectangleValue (Rectangle (-10, 10, -10, 10)),
+                                 "Speed", RandomVariableValue (ConstantVariable (3)),
+                                 "Pause", RandomVariableValue (ConstantVariable (0.4)));
+      mobility.Install (infra);
+    }
+  /////////////////////////////////////////////////////////////////////////// 
+  //                                                                       //
+  // Routing configuration                                                 //
+  //                                                                       //
+  /////////////////////////////////////////////////////////////////////////// 
+
+  // The below global routing does not take into account wireless effects.
+  // However, it is useful for setting default routes for all of the nodes
+  // such as the LAN nodes.
+  NS_LOG_INFO ("Enabling global routing on all nodes");
+  Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
+
+  /////////////////////////////////////////////////////////////////////////// 
+  //                                                                       //
+  // Application configuration                                             //
+  //                                                                       //
+  /////////////////////////////////////////////////////////////////////////// 
+
+  // Create the OnOff application to send UDP datagrams of size
+  // 210 bytes at a rate of 10 Kb/s, between two nodes
+  // We'll send data from the first wired LAN node on the first wired LAN
+  // to the last wireless STA on the last infrastructure net, thereby
+  // causing packets to traverse CSMA to adhoc to infrastructure links
+
+  NS_LOG_INFO ("Create Applications.");
+  uint16_t port = 9;   // Discard port (RFC 863)
+
+  // Let's make sure that the user does not define too few nodes
+  // to make this example work.  We need lanNodes > 1  and infraNodes > 1
+  NS_ASSERT (lanNodes > 1 && infraNodes > 1);
+  // We want the source to be the first node created outside of the backbone
+  // Conveniently, the variable "backboneNodes" holds this node index value
+  Ptr<Node> appSource = NodeList::GetNode (backboneNodes);
+  // We want the sink to be the last node created in the topology.
+  uint32_t lastNodeIndex = backboneNodes + backboneNodes*(lanNodes - 1) + backboneNodes*(infraNodes - 1) - 1;
+  Ptr<Node> appSink = NodeList::GetNode (lastNodeIndex);
+  // Let's fetch the IP address of the last node, which is on Ipv4Interface 1
+  Ipv4Address remoteAddr = appSink->GetObject<Ipv4> ()->GetAddress (1, 0).GetLocal ();
+
+  OnOffHelper onoff ("ns3::UdpSocketFactory", 
+                     Address (InetSocketAddress (remoteAddr, port)));
+  onoff.SetAttribute ("OnTime", RandomVariableValue (ConstantVariable (1)));
+  onoff.SetAttribute ("OffTime", RandomVariableValue (ConstantVariable (0)));
+  ApplicationContainer apps = onoff.Install (appSource);
+  apps.Start (Seconds (3.0));
+  apps.Stop (Seconds (20.0));
+
+  // Create a packet sink to receive these packets
+  PacketSinkHelper sink ("ns3::UdpSocketFactory", 
+                         InetSocketAddress (Ipv4Address::GetAny (), port));
+  apps = sink.Install (appSink);
+  apps.Start (Seconds (3.0));
+
+  /////////////////////////////////////////////////////////////////////////// 
+  //                                                                       //
+  // Tracing configuration                                                 //
+  //                                                                       //
+  /////////////////////////////////////////////////////////////////////////// 
+
+  NS_LOG_INFO ("Configure Tracing.");
+  if (enableTracing == true)
+    {
+      CsmaHelper csma;
+
+      //
+      // Let's set up some ns-2-like ascii traces, using another helper class
+      //
+      AsciiTraceHelper ascii;
+      Ptr<OutputStreamWrapper> stream = ascii.CreateFileStream ("mixed-wireless.tr");
+      wifiPhy.EnableAsciiAll (stream);
+      csma.EnableAsciiAll (stream);
+      internet.EnableAsciiIpv4All (stream);
+
+      // Let's do a pcap trace on the application source and sink, ifIndex 0
+      // Csma captures in non-promiscuous mode
+#if 0
+      csma.EnablePcap ("mixed-wireless", appSource->GetId (), 0, false);
+#else
+      csma.EnablePcapAll ("mixed-wireless", false);
+#endif
+      wifiPhy.EnablePcap ("mixed-wireless", appSink->GetId (), 0);
+      wifiPhy.EnablePcap ("mixed-wireless", 9, 2);
+      wifiPhy.EnablePcap ("mixed-wireless", 9, 0);
+    }
+
+  if (useCourseChangeCallback == true)
+    {
+      Config::Connect ("/NodeList/*/$ns3::MobilityModel/CourseChange", MakeCallback (&CourseChangeCallback));
+    }
+
+  /////////////////////////////////////////////////////////////////////////// 
+  //                                                                       //
+  // Run simulation                                                        //
+  //                                                                       //
+  /////////////////////////////////////////////////////////////////////////// 
+
+  NS_LOG_INFO ("Run Simulation.");
+  Simulator::Stop (Seconds (stopTime));
+  Simulator::Run ();
+  Simulator::Destroy ();
+}
+/* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: Duy Nguyen <duy@soe.ucsc.edu>
+ */
+
+/**
+ * Scenarios: 100 nodes, multiple simultaneous flows, multi-hop ad hoc, routing,
+ * and mobility
+ *
+ * QUICK INSTRUCTIONS:
+ *
+ * To optimize build: 
+ * ./waf -d optimized configure
+ * ./waf
+ *
+ * To compile:
+ * ./waf --run multirate
+ *
+ * To compile with command line(useful for varying parameters):
+ * ./waf --run "multirate --totalTime=0.3s --rateManager=ns3::MinstrelWifiManager"
+ *
+ * To turn on NS_LOG:
+ * export NS_LOG=multirate=level_all
+ * (can only view log if built with ./waf -d debug configure)
+ *
+ * To debug:
+ * ./waf --shell
+ * gdb ./build/debug/examples/wireless/multirate
+ *
+ * To view pcap files:
+ * tcpdump -nn -tt -r filename.pcap
+ *
+ * To monitor the files:
+ * tail -f filename.pcap
+ *
+ */
+
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/applications-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/tools-module.h"
+#include "ns3/random-variable.h"
+#include "ns3/wifi-module.h"
+#include "ns3/internet-module.h"
+#include "ns3/flow-monitor-helper.h"
+#include "ns3/olsr-helper.h"
+#include "ns3/ipv4-static-routing-helper.h"
+#include "ns3/ipv4-list-routing-helper.h"
+
+#include <iostream>
+#include <fstream>
+
+NS_LOG_COMPONENT_DEFINE ("multirate");
+
+using namespace ns3;
+
+class Experiment
+{
+public:
+
+  Experiment ();
+  Experiment (std::string name);
+  Gnuplot2dDataset Run (const WifiHelper &wifi, const YansWifiPhyHelper &wifiPhy,
+                        const NqosWifiMacHelper &wifiMac, const YansWifiChannelHelper &wifiChannel, const MobilityHelper &mobility);
+
+  bool CommandSetup (int argc, char **argv);
+  bool IsRouting () { return (enableRouting == 1) ? 1 : 0; }
+  bool IsMobility () { return (enableMobility == 1) ? 1 : 0; }
+
+  uint32_t GetScenario () { return scenario; }
+
+  std::string GetRtsThreshold () { return rtsThreshold; }
+  std::string GetOutputFileName () { return outputFileName; }
+  std::string GetRateManager () { return rateManager; }
+
+private:
+
+  Vector GetPosition (Ptr<Node> node);
+  Ptr<Socket> SetupPacketReceive (Ptr<Node> node);
+  NodeContainer GenerateNeighbors (NodeContainer c, uint32_t senderId);
+
+  void ApplicationSetup (Ptr<Node> client, Ptr<Node> server, double start, double stop);
+  void AssignNeighbors (NodeContainer c);
+  void SelectSrcDest (NodeContainer c);
+  void ReceivePacket (Ptr<Socket> socket);
+  void CheckThroughput ();
+  void SendMultiDestinations (Ptr<Node> sender, NodeContainer c);
+
+  Gnuplot2dDataset m_output;
+
+  double totalTime; 
+  double expMean;
+
+  uint32_t bytesTotal;
+  uint32_t packetSize;
+  uint32_t gridSize; 
+  uint32_t nodeDistance;
+  uint32_t port;
+  uint32_t scenario;
+
+  bool enablePcap;
+  bool enableTracing;
+  bool enableFlowMon;
+  bool enableRouting;
+  bool enableMobility;
+
+  NodeContainer containerA, containerB, containerC, containerD; 
+  std::string rtsThreshold, rateManager, outputFileName;
+};
+
+Experiment::Experiment ()
+{
+}
+
+Experiment::Experiment (std::string name) :
+  m_output (name),
+  totalTime (0.3),
+  expMean (0.1), //flows being exponentially distributed
+  bytesTotal (0),
+  packetSize (2000),
+  gridSize (10), //10x10 grid  for a total of 100 nodes
+  nodeDistance (30),
+  port (5000),
+  scenario (4),
+  enablePcap (false),
+  enableTracing (true),
+  enableFlowMon (false),
+  enableRouting (false),
+  enableMobility (false),
+  rtsThreshold ("2200"), //0 for enabling rts/cts
+  rateManager ("ns3::MinstrelWifiManager"),
+  outputFileName ("minstrel")
+{
+  m_output.SetStyle (Gnuplot2dDataset::LINES);
+}
+
+Ptr<Socket>
+Experiment::SetupPacketReceive (Ptr<Node> node)
+{
+  TypeId tid = TypeId::LookupByName ("ns3::UdpSocketFactory");
+  Ptr<Socket> sink = Socket::CreateSocket (node, tid);
+  InetSocketAddress local = InetSocketAddress (Ipv4Address::GetAny (), port);
+  sink->Bind (local);
+  sink->SetRecvCallback (MakeCallback (&Experiment::ReceivePacket, this));
+
+  return sink;
+}
+
+void
+Experiment::ReceivePacket (Ptr<Socket> socket)
+{
+  Ptr<Packet> packet;
+  while (packet = socket->Recv ())
+    {
+      bytesTotal += packet->GetSize ();
+    }
+}
+
+void
+Experiment::CheckThroughput ()
+{
+  double mbs = ((bytesTotal * 8.0) /1000000);
+  bytesTotal = 0;
+  m_output.Add ((Simulator::Now ()).GetSeconds (), mbs);
+
+  //check throughput every 1/10 of a second 
+  Simulator::Schedule (Seconds (0.1), &Experiment::CheckThroughput, this);
+}
+
+Vector
+Experiment::GetPosition (Ptr<Node> node)
+{
+  Ptr<MobilityModel> mobility = node->GetObject<MobilityModel> ();
+  return mobility->GetPosition ();
+}
+
+/**
+ *
+ * Take the grid map, divide it into 4 quadrants
+ * Assign all nodes from each quadrant to a specific container 
+ * 
+ */
+void
+Experiment::AssignNeighbors (NodeContainer c)
+{
+  uint32_t totalNodes = c.GetN ();
+  for (uint32_t i=0; i< totalNodes; i++)
+    {
+      if ( (i % gridSize) <= (gridSize/2 - 1))
+        {
+          //lower left quadrant
+          if ( i < totalNodes/2 )
+            {
+              containerA.Add (c.Get (i));
+            }
+
+          //upper left quadrant
+          if ( i >= (uint32_t)(4*totalNodes)/10 )
+            {
+              containerC.Add (c.Get (i));
+            }
+        }
+      if ( (i % gridSize) >= (gridSize/2 - 1))
+        {
+          //lower right quadrant
+          if ( i < totalNodes/2 )
+            {
+              containerB.Add (c.Get (i));
+            }
+
+          //upper right quadrant
+          if ( i >= (uint32_t)(4*totalNodes)/10  )
+            {
+              containerD.Add (c.Get (i));
+            }
+        }
+    }
+}
+
+/**
+ * Generate 1-hop and 2-hop neighbors of a node in grid topology
+ *
+ */
+NodeContainer
+Experiment::GenerateNeighbors (NodeContainer c, uint32_t senderId)
+{
+  NodeContainer nc;
+  uint32_t limit = senderId + 2;
+  for (uint32_t i= senderId - 2; i <= limit; i++)
+    {
+      //must ensure the boundaries for other topologies
+      nc.Add (c.Get (i));
+      nc.Add (c.Get (i + 10));
+      nc.Add (c.Get (i + 20));
+      nc.Add (c.Get (i - 10));
+      nc.Add (c.Get (i - 20));
+    }
+  return nc;
+}
+
+/**
+ * Sources and destinations are randomly selected such that a node 
+ * may be the source for multiple destinations and a node maybe a destination 
+ * for multiple sources. 
+ */
+void
+Experiment::SelectSrcDest (NodeContainer c)
+{
+  uint32_t totalNodes = c.GetN ();
+  UniformVariable uvSrc (0, totalNodes/2 -1);
+  UniformVariable uvDest (totalNodes/2, totalNodes);
+
+  for (uint32_t i=0; i < totalNodes/3; i++)
+    {
+      ApplicationSetup (c.Get (uvSrc.RandomVariable::GetInteger ()), c.Get (uvDest.RandomVariable::GetInteger ()),  0, totalTime);
+    }
+}
+
+/**
+ *
+ * A sender node will  set up a flow to each of the its neighbors
+ * in its quadrant randomly.  All the flows are exponentially distributed
+ *
+ */
+void
+Experiment::SendMultiDestinations (Ptr<Node> sender, NodeContainer c)
+{
+
+  // UniformVariable params: (Xrange, Yrange)
+  UniformVariable uv (0, c.GetN ());
+
+  // ExponentialVariable params: (mean, upperbound)
+  ExponentialVariable ev (expMean, totalTime);
+
+  double start=0.0, stop=totalTime;
+  uint32_t destIndex; 
+
+  for (uint32_t i=0; i < c.GetN (); i++)
+    {
+      stop = start + ev.GetValue ();
+      NS_LOG_DEBUG ("Start=" << start << " Stop=" << stop);
+
+      do {
+          destIndex = (uint32_t) uv.GetValue ();
+        } while ( (c.Get (destIndex))->GetId () == sender->GetId ());
+
+      ApplicationSetup (sender, c.Get (destIndex),  start, stop);
+
+      start = stop;
+
+      if(start > totalTime) 
+        {
+          break;
+        }
+    }
+}
+
+void
+Experiment::ApplicationSetup (Ptr<Node> client, Ptr<Node> server, double start, double stop)
+{
+
+  Vector serverPos = GetPosition (server);
+  Vector clientPos = GetPosition (client);
+
+  Ptr<Ipv4> ipv4Server = server->GetObject<Ipv4>();
+  Ptr<Ipv4> ipv4Client = client->GetObject<Ipv4>();
+
+  Ipv4InterfaceAddress iaddrServer = ipv4Server->GetAddress (1,0);
+  Ipv4InterfaceAddress iaddrClient = ipv4Client->GetAddress (1,0);
+
+  Ipv4Address ipv4AddrServer = iaddrServer.GetLocal ();
+  Ipv4Address ipv4AddrClient = iaddrClient.GetLocal ();
+
+  NS_LOG_DEBUG ("Set up Server Device " <<  (server->GetDevice (0))->GetAddress ()
+                                        << " with ip " << ipv4AddrServer
+                                        << " position (" << serverPos.x << "," << serverPos.y << "," << serverPos.z << ")");
+
+  NS_LOG_DEBUG ("Set up Client Device " <<  (client->GetDevice (0))->GetAddress ()
+                                        << " with ip " << ipv4AddrClient
+                                        << " position (" << clientPos.x << "," << clientPos.y << "," << clientPos.z << ")"
+                                        << "\n");
+
+  //cast serverPos,clientPos,iaddrClient to void, to suppress variable set but not
+  //used compiler warning in optimized builds
+  (void) serverPos;
+  (void) clientPos;
+  (void) ipv4AddrClient;
+
+  // Equipping the source  node with OnOff Application used for sending 
+  OnOffHelper onoff ("ns3::UdpSocketFactory", Address (InetSocketAddress (Ipv4Address ("10.0.0.1"), port)));
+  onoff.SetAttribute ("OnTime", RandomVariableValue (ConstantVariable (1)));
+  onoff.SetAttribute ("OffTime", RandomVariableValue (ConstantVariable (0)));
+  onoff.SetAttribute ("DataRate", DataRateValue (DataRate (60000000)));
+  onoff.SetAttribute ("PacketSize", UintegerValue (packetSize));
+  onoff.SetAttribute ("Remote", AddressValue (InetSocketAddress (ipv4AddrServer, port)));
+
+  ApplicationContainer apps = onoff.Install (client);
+  apps.Start (Seconds (start));
+  apps.Stop (Seconds (stop));
+
+  Ptr<Socket> sink = SetupPacketReceive (server);
+
+}
+
+Gnuplot2dDataset
+Experiment::Run (const WifiHelper &wifi, const YansWifiPhyHelper &wifiPhy,
+                 const NqosWifiMacHelper &wifiMac, const YansWifiChannelHelper &wifiChannel, const MobilityHelper &mobility)
+{
+
+
+  uint32_t nodeSize = gridSize*gridSize;
+  NodeContainer c;
+  c.Create (nodeSize);
+
+  YansWifiPhyHelper phy = wifiPhy;
+  phy.SetChannel (wifiChannel.Create ());
+
+  NqosWifiMacHelper mac = wifiMac;
+  NetDeviceContainer devices = wifi.Install (phy, mac, c);
+
+
+  OlsrHelper olsr;
+  Ipv4StaticRoutingHelper staticRouting;
+
+  Ipv4ListRoutingHelper list;
+
+  if (enableRouting)
+    {
+      list.Add (staticRouting, 0);
+      list.Add (olsr, 10);
+    }
+
+  InternetStackHelper internet;
+
+  if (enableRouting)
+    {
+      internet.SetRoutingHelper (list);  // has effect on the next Install ()
+    }
+  internet.Install (c);
+
+
+  Ipv4AddressHelper address;
+  address.SetBase ("10.0.0.0", "255.255.255.0");
+
+  Ipv4InterfaceContainer ipInterfaces;
+  ipInterfaces = address.Assign (devices);
+
+  MobilityHelper mobil= mobility;
+  mobil.SetPositionAllocator ("ns3::GridPositionAllocator",
+                              "MinX", DoubleValue (0.0),
+                              "MinY", DoubleValue (0.0),
+                              "DeltaX", DoubleValue (nodeDistance),
+                              "DeltaY", DoubleValue (nodeDistance),
+                              "GridWidth", UintegerValue (gridSize),
+                              "LayoutType", StringValue ("RowFirst"));
+
+  mobil.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+
+  if (enableMobility && enableRouting)
+    {
+      //Rectangle (xMin, xMax, yMin, yMax)
+      mobil.SetMobilityModel ("ns3::RandomDirection2dMobilityModel",
+                              "Bounds", RectangleValue (Rectangle (0, 500, 0, 500)),
+                              "Speed", RandomVariableValue (ConstantVariable (10)),
+                              "Pause", RandomVariableValue (ConstantVariable (0.2)));
+    }
+  mobil.Install (c);
+
+
+//    NS_LOG_INFO ("Enabling global routing on all nodes");
+//    Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
+
+  if ( scenario == 1 && enableRouting)
+    {
+      SelectSrcDest (c);
+    }
+  else if ( scenario == 2)
+    {
+      //All flows begin at the same time
+      for (uint32_t i = 0; i < nodeSize - 1; i = i+2)
+        {
+          ApplicationSetup (c.Get (i), c.Get (i+1),  0, totalTime);
+        }
+    }
+  else if ( scenario == 3)
+    {
+      AssignNeighbors (c);
+      //Note: these senders are hand-picked in order to ensure good coverage
+      //for 10x10 grid, basically one sender for each quadrant
+      //you might have to change these values for other grids 
+      NS_LOG_DEBUG (">>>>>>>>>region A<<<<<<<<<");
+      SendMultiDestinations (c.Get (22), containerA);
+
+      NS_LOG_DEBUG (">>>>>>>>>region B<<<<<<<<<");
+      SendMultiDestinations (c.Get (26), containerB);
+
+      NS_LOG_DEBUG (">>>>>>>>>region C<<<<<<<<<");
+      SendMultiDestinations (c.Get (72), containerC);
+
+      NS_LOG_DEBUG (">>>>>>>>>region D<<<<<<<<<");
+      SendMultiDestinations (c.Get (76), containerD);
+    }
+  else if ( scenario == 4)
+    {
+      //GenerateNeighbors(NodeContainer, uint32_t sender)
+      //Note: these senders are hand-picked in order to ensure good coverage
+      //you might have to change these values for other grids 
+      NodeContainer c1, c2, c3, c4, c5, c6, c7, c8, c9;
+
+      c1 = GenerateNeighbors (c, 22);
+      c2 = GenerateNeighbors (c, 24);;
+      c3 = GenerateNeighbors (c, 26);;
+      c4 = GenerateNeighbors (c, 42);;
+      c5 = GenerateNeighbors (c, 44);;
+      c6 = GenerateNeighbors (c, 46);;
+      c7 = GenerateNeighbors (c, 62);;
+      c8 = GenerateNeighbors (c, 64);;
+      c9 = GenerateNeighbors (c, 66);;
+
+      SendMultiDestinations (c.Get (22), c1);
+      SendMultiDestinations (c.Get (24), c2);
+      SendMultiDestinations (c.Get (26), c3);
+      SendMultiDestinations (c.Get (42), c4);
+      SendMultiDestinations (c.Get (44), c5);
+      SendMultiDestinations (c.Get (46), c6);
+      SendMultiDestinations (c.Get (62), c7);
+      SendMultiDestinations (c.Get (64), c8);
+      SendMultiDestinations (c.Get (66), c9);
+    }
+
+  CheckThroughput ();
+
+  if (enablePcap)
+    {
+      phy.EnablePcapAll (GetOutputFileName ());
+    }
+
+  if (enableTracing)
+    {
+      AsciiTraceHelper ascii;
+      phy.EnableAsciiAll (ascii.CreateFileStream (GetOutputFileName () + ".tr"));
+    }
+
+  Ptr<FlowMonitor> flowmon;
+
+  if (enableFlowMon)
+    {
+      FlowMonitorHelper flowmonHelper;
+      flowmon = flowmonHelper.InstallAll ();
+    }
+
+  Simulator::Stop (Seconds (totalTime));
+  Simulator::Run ();
+
+  if (enableFlowMon)
+    {
+      flowmon->SerializeToXmlFile ((GetOutputFileName () + ".flomon"), false, false);
+    }
+
+  Simulator::Destroy ();
+
+  return m_output;
+}
+
+bool
+Experiment::CommandSetup (int argc, char **argv)
+{
+  // for commandline input
+  CommandLine cmd;
+  cmd.AddValue ("packetSize", "packet size", packetSize);
+  cmd.AddValue ("totalTime", "simulation time", totalTime);
+  cmd.AddValue ("rtsThreshold", "rts threshold", rtsThreshold);
+  cmd.AddValue ("rateManager", "type of rate", rateManager);
+  cmd.AddValue ("outputFileName", "output filename", outputFileName);
+  cmd.AddValue ("enableRouting", "enable Routing", enableRouting);
+  cmd.AddValue ("enableMobility", "enable Mobility", enableMobility);
+  cmd.AddValue ("scenario", "scenario ", scenario);
+
+  cmd.Parse (argc, argv);
+  return true;
+}
+
+int main (int argc, char *argv[])
+{
+
+  Experiment experiment;
+  experiment = Experiment ("multirate");
+
+  //for commandline input
+  experiment.CommandSetup (argc, argv);
+
+  // set value to 0 for enabling fragmentation
+  Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue (experiment.GetRtsThreshold ()));
+
+  std::ofstream outfile ((experiment.GetOutputFileName ()+ ".plt").c_str ());
+
+  MobilityHelper mobility;
+  Gnuplot gnuplot;
+  Gnuplot2dDataset dataset;
+
+  WifiHelper wifi = WifiHelper::Default ();
+  NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+  YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default ();
+  YansWifiChannelHelper wifiChannel = YansWifiChannelHelper::Default ();
+  Ssid ssid = Ssid ("Testbed");
+
+  wifiMac.SetType ("ns3::AdhocWifiMac",
+                   "Ssid", SsidValue (ssid));
+  wifi.SetStandard (WIFI_PHY_STANDARD_holland);
+  wifi.SetRemoteStationManager (experiment.GetRateManager ());
+
+  NS_LOG_INFO ("Scenario: " << experiment.GetScenario ());
+  NS_LOG_INFO ("Rts Threshold: " << experiment.GetRtsThreshold ());
+  NS_LOG_INFO ("Name:  " << experiment.GetOutputFileName ());
+  NS_LOG_INFO ("Rate:  " << experiment.GetRateManager ());
+  NS_LOG_INFO ("Routing: " << experiment.IsRouting ());
+  NS_LOG_INFO ("Mobility: " << experiment.IsMobility ());
+
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel, mobility);
+
+  gnuplot.AddDataset (dataset);
+  gnuplot.GenerateOutput (outfile);
+
+  return 0;
+}
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2010 The Boeing Company
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: Gary Pei <guangyu.pei@boeing.com>
+ */
+#include "ns3/core-module.h"
+#include "ns3/yans-error-rate-model.h"
+#include "ns3/nist-error-rate-model.h"
+#include "ns3/gnuplot.h"
+
+#include <fstream>
+#include <vector>
+#include <math.h>
+
+using namespace ns3;
+
+int main (int argc, char *argv[])
+{
+  uint32_t FrameSize = 2000;
+  std::ofstream yansfile ("yans-frame-success-rate.plt");
+  std::ofstream nistfile ("nist-frame-success-rate.plt");
+  std::vector <std::string> modes;
+
+  modes.push_back ("OfdmRate6Mbps");
+  modes.push_back ("OfdmRate9Mbps");
+  modes.push_back ("OfdmRate12Mbps");
+  modes.push_back ("OfdmRate18Mbps");
+  modes.push_back ("OfdmRate24Mbps");
+  modes.push_back ("OfdmRate36Mbps");
+  modes.push_back ("OfdmRate48Mbps");
+  modes.push_back ("OfdmRate54Mbps");
+
+  CommandLine cmd;
+  cmd.AddValue ("FrameSize", "The frame size", FrameSize);
+  cmd.Parse (argc, argv);
+
+  Gnuplot yansplot = Gnuplot ("yans-frame-success-rate.eps");
+  Gnuplot nistplot = Gnuplot ("nist-frame-success-rate.eps");
+
+  Ptr <YansErrorRateModel> yans = CreateObject<YansErrorRateModel> ();
+  Ptr <NistErrorRateModel> nist = CreateObject<NistErrorRateModel> ();
+
+  for (uint32_t i = 0; i < modes.size (); i++)
+    {
+      std::cout << modes[i] << std::endl;
+      Gnuplot2dDataset yansdataset (modes[i]);
+      Gnuplot2dDataset nistdataset (modes[i]);
+
+      for (double snr = -5.0; snr <= 30.0; snr += 0.1)
+        {
+          double ps = yans->GetChunkSuccessRate (WifiMode (modes[i]), pow (10.0,snr/10.0), FrameSize*8);
+          yansdataset.Add (snr, ps);
+          ps = nist->GetChunkSuccessRate (WifiMode (modes[i]), pow (10.0,snr/10.0), FrameSize*8);
+          nistdataset.Add (snr, ps);
+        }
+
+      yansplot.AddDataset (yansdataset);
+      nistplot.AddDataset (nistdataset);
+    }
+
+  yansplot.SetTerminal ("postscript eps color enh \"Times-BoldItalic\"");
+  yansplot.SetLegend ("SNR(dB)", "Frame Success Rate");
+  yansplot.SetExtra  ("set xrange [-5:30]\n\
+set yrange [0:1.2]\n\
+set style line 1 linewidth 5\n\
+set style line 2 linewidth 5\n\
+set style line 3 linewidth 5\n\
+set style line 4 linewidth 5\n\
+set style line 5 linewidth 5\n\
+set style line 6 linewidth 5\n\
+set style line 7 linewidth 5\n\
+set style line 8 linewidth 5\n\
+set style increment user"                                                                                                                                                                                                                                                                                                                                   );
+  yansplot.GenerateOutput (yansfile);
+  yansfile.close ();
+
+  nistplot.SetTerminal ("postscript eps color enh \"Times-BoldItalic\"");
+  nistplot.SetLegend ("SNR(dB)", "Frame Success Rate");
+  nistplot.SetExtra  ("set xrange [-5:30]\n\
+set yrange [0:1.2]\n\
+set style line 1 linewidth 5\n\
+set style line 2 linewidth 5\n\
+set style line 3 linewidth 5\n\
+set style line 4 linewidth 5\n\
+set style line 5 linewidth 5\n\
+set style line 6 linewidth 5\n\
+set style line 7 linewidth 5\n\
+set style line 8 linewidth 5\n\
+set style increment user"                                                                                                                                                                                                                                                                                                                                   );
+
+  nistplot.GenerateOutput (nistfile);
+  nistfile.close ();
+}
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2009 MIRKO BANCHI
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as 
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: Mirko Banchi <mk.banchi@gmail.com>
+ */
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/applications-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/ipv4-global-routing-helper.h"
+#include "ns3/internet-module.h"
+
+//This is a simple example in order to show how 802.11n frame aggregation feature (A-MSDU) works.
+//
+//Network topology:
+// 
+//  Wifi 192.168.1.0
+// 
+//             AP
+//   *    *    *
+//   |    |    |
+//   n1   n2   n3 
+//
+//Packets in this simulation aren't marked with a QosTag so they are considered
+//belonging to BestEffort Access Class (AC_BE).
+
+using namespace ns3;
+
+NS_LOG_COMPONENT_DEFINE ("SimpleWifiFrameAggregation");
+
+int main (int argc, char *argv[])
+{
+  //LogComponentEnable ("EdcaTxopN", LOG_LEVEL_DEBUG);
+  LogComponentEnable ("MsduAggregator", LOG_LEVEL_INFO);
+  LogComponentEnable ("UdpEchoClientApplication", LOG_LEVEL_INFO);
+  LogComponentEnable ("UdpEchoServerApplication", LOG_LEVEL_INFO);
+
+  uint32_t nWifi = 1;
+  CommandLine cmd;
+  cmd.AddValue ("nWifi", "Number of wifi STA devices", nWifi);
+  cmd.Parse (argc,argv);
+
+  NodeContainer wifiNodes;
+  wifiNodes.Create (2);
+  NodeContainer wifiApNode;
+  wifiApNode.Create (1);
+ 
+  YansWifiChannelHelper channel = YansWifiChannelHelper::Default ();
+  YansWifiPhyHelper phy = YansWifiPhyHelper::Default ();
+  phy.SetChannel (channel.Create ());
+
+  WifiHelper wifi = WifiHelper::Default ();
+  QosWifiMacHelper mac = QosWifiMacHelper::Default ();
+  wifi.SetRemoteStationManager ("ns3::AarfWifiManager", "FragmentationThreshold", UintegerValue (2500));
+
+  Ssid ssid = Ssid ("ns-3-802.11n");
+  mac.SetType ("ns3::StaWifiMac",
+               "Ssid", SsidValue (ssid),
+               "ActiveProbing", BooleanValue (false));
+  mac.SetMsduAggregatorForAc (AC_BE, "ns3::MsduStandardAggregator", 
+                              "MaxAmsduSize", UintegerValue (3839));
+
+  NetDeviceContainer staDevices;
+  staDevices = wifi.Install (phy, mac, wifiNodes);
+
+  mac.SetType ("ns3::ApWifiMac",
+               "Ssid", SsidValue (ssid));
+  mac.SetMsduAggregatorForAc (AC_BE, "ns3::MsduStandardAggregator", 
+                              "MaxAmsduSize", UintegerValue (7935));
+
+  NetDeviceContainer apDevice;
+  apDevice = wifi.Install (phy, mac, wifiApNode);
+ 
+  /* Setting mobility model */
+  MobilityHelper mobility;
+
+  mobility.SetPositionAllocator ("ns3::GridPositionAllocator",
+                                 "MinX", DoubleValue (0.0),
+                                 "MinY", DoubleValue (0.0),
+                                 "DeltaX", DoubleValue (5.0),
+                                 "DeltaY", DoubleValue (10.0),
+                                 "GridWidth", UintegerValue (3),
+                                 "LayoutType", StringValue ("RowFirst"));
+
+  mobility.SetMobilityModel ("ns3::RandomWalk2dMobilityModel",
+                             "Bounds", RectangleValue (Rectangle (-50, 50, -50, 50)));
+  mobility.Install (wifiNodes);
+
+  mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+  mobility.Install (wifiApNode);
+
+  /* Internet stack*/
+  InternetStackHelper stack;
+  stack.Install (wifiApNode);
+  stack.Install (wifiNodes);
+
+  Ipv4AddressHelper address;
+
+  address.SetBase ("192.168.1.0", "255.255.255.0");
+  Ipv4InterfaceContainer wifiNodesInterfaces;
+  Ipv4InterfaceContainer apNodeInterface;
+
+  wifiNodesInterfaces = address.Assign (staDevices);
+  apNodeInterface = address.Assign (apDevice);
+
+  /* Setting applications */
+  UdpEchoServerHelper echoServer (9);
+
+  ApplicationContainer serverApps = echoServer.Install (wifiNodes.Get (1));
+  serverApps.Start (Seconds (1.0));
+  serverApps.Stop (Seconds (10.0));
+
+  UdpEchoClientHelper echoClient (wifiNodesInterfaces.GetAddress (1), 9);
+  echoClient.SetAttribute ("MaxPackets", UintegerValue (3));
+  echoClient.SetAttribute ("Interval", TimeValue (Seconds (0.000001)));
+  echoClient.SetAttribute ("PacketSize", UintegerValue (1500));
+
+  ApplicationContainer clientApps = 
+    echoClient.Install (wifiNodes.Get (0));
+  clientApps.Start (Seconds (2.0));
+  clientApps.Stop (Seconds (10.0));
+
+  Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
+
+  Simulator::Stop (Seconds (10.0));
+
+  phy.EnablePcap ("test-802.11n", 
+                  wifiNodes.Get (nWifi - 1)->GetId (), 0);
+
+  Simulator::Run ();
+  Simulator::Destroy ();
+
+  return 0;
+}
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2005,2006,2007 INRIA
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: Mathieu Lacage <mathieu.lacage@sophia.inria.fr>
+ */
+
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/applications-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/tools-module.h"
+#include "ns3/wifi-module.h"
+
+#include <iostream>
+
+NS_LOG_COMPONENT_DEFINE ("Main");
+
+using namespace ns3;
+
+class Experiment
+{
+public:
+  Experiment ();
+  Experiment (std::string name);
+  Gnuplot2dDataset Run (const WifiHelper &wifi, const YansWifiPhyHelper &wifiPhy,
+                        const NqosWifiMacHelper &wifiMac, const YansWifiChannelHelper &wifiChannel);
+private:
+  void ReceivePacket (Ptr<Socket> socket);
+  void SetPosition (Ptr<Node> node, Vector position);
+  Vector GetPosition (Ptr<Node> node);
+  void AdvancePosition (Ptr<Node> node);
+  Ptr<Socket> SetupPacketReceive (Ptr<Node> node);
+
+  uint32_t m_bytesTotal;
+  Gnuplot2dDataset m_output;
+};
+
+Experiment::Experiment ()
+{
+}
+
+Experiment::Experiment (std::string name)
+  : m_output (name)
+{
+  m_output.SetStyle (Gnuplot2dDataset::LINES);
+}
+
+void
+Experiment::SetPosition (Ptr<Node> node, Vector position)
+{
+  Ptr<MobilityModel> mobility = node->GetObject<MobilityModel> ();
+  mobility->SetPosition (position);
+}
+
+Vector
+Experiment::GetPosition (Ptr<Node> node)
+{
+  Ptr<MobilityModel> mobility = node->GetObject<MobilityModel> ();
+  return mobility->GetPosition ();
+}
+
+void 
+Experiment::AdvancePosition (Ptr<Node> node) 
+{
+  Vector pos = GetPosition (node);
+  double mbs = ((m_bytesTotal * 8.0) / 1000000);
+  m_bytesTotal = 0;
+  m_output.Add (pos.x, mbs);
+  pos.x += 1.0;
+  if (pos.x >= 210.0) 
+    {
+      return;
+    }
+  SetPosition (node, pos);
+  //std::cout << "x="<<pos.x << std::endl;
+  Simulator::Schedule (Seconds (1.0), &Experiment::AdvancePosition, this, node);
+}
+
+void
+Experiment::ReceivePacket (Ptr<Socket> socket)
+{
+  Ptr<Packet> packet;
+  while (packet = socket->Recv ())
+    {
+      m_bytesTotal += packet->GetSize ();
+    }
+}
+
+Ptr<Socket>
+Experiment::SetupPacketReceive (Ptr<Node> node)
+{
+  TypeId tid = TypeId::LookupByName ("ns3::PacketSocketFactory");
+  Ptr<Socket> sink = Socket::CreateSocket (node, tid);
+  sink->Bind ();
+  sink->SetRecvCallback (MakeCallback (&Experiment::ReceivePacket, this));
+  return sink;
+}
+
+Gnuplot2dDataset
+Experiment::Run (const WifiHelper &wifi, const YansWifiPhyHelper &wifiPhy,
+                 const NqosWifiMacHelper &wifiMac, const YansWifiChannelHelper &wifiChannel)
+{
+  m_bytesTotal = 0;
+
+  NodeContainer c;
+  c.Create (2);
+
+  PacketSocketHelper packetSocket;
+  packetSocket.Install (c);
+
+  YansWifiPhyHelper phy = wifiPhy;
+  phy.SetChannel (wifiChannel.Create ());
+
+  NqosWifiMacHelper mac = wifiMac;
+  NetDeviceContainer devices = wifi.Install (phy, mac, c);
+
+  MobilityHelper mobility;
+  Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
+  positionAlloc->Add (Vector (0.0, 0.0, 0.0));
+  positionAlloc->Add (Vector (5.0, 0.0, 0.0));
+  mobility.SetPositionAllocator (positionAlloc);
+  mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+
+  mobility.Install (c);
+
+  PacketSocketAddress socket;
+  socket.SetSingleDevice (devices.Get (0)->GetIfIndex ());
+  socket.SetPhysicalAddress (devices.Get (1)->GetAddress ());
+  socket.SetProtocol (1);
+
+  OnOffHelper onoff ("ns3::PacketSocketFactory", Address (socket));
+  onoff.SetAttribute ("OnTime", RandomVariableValue (ConstantVariable (250)));
+  onoff.SetAttribute ("OffTime", RandomVariableValue (ConstantVariable (0)));
+  onoff.SetAttribute ("DataRate", DataRateValue (DataRate (60000000)));
+  onoff.SetAttribute ("PacketSize", UintegerValue (2000));
+
+  ApplicationContainer apps = onoff.Install (c.Get (0));
+  apps.Start (Seconds (0.5));
+  apps.Stop (Seconds (250.0));
+
+  Simulator::Schedule (Seconds (1.5), &Experiment::AdvancePosition, this, c.Get (1));
+  Ptr<Socket> recvSink = SetupPacketReceive (c.Get (1));
+
+  Simulator::Run ();
+
+  Simulator::Destroy ();
+
+  return m_output;
+}
+
+int main (int argc, char *argv[])
+{
+  // disable fragmentation
+  Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue ("2200"));
+
+  CommandLine cmd;
+  cmd.Parse (argc, argv);
+
+  Gnuplot gnuplot = Gnuplot ("reference-rates.png");
+
+  Experiment experiment;
+  WifiHelper wifi = WifiHelper::Default ();
+  wifi.SetStandard (WIFI_PHY_STANDARD_80211a);
+  NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+  YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default ();
+  YansWifiChannelHelper wifiChannel = YansWifiChannelHelper::Default ();
+  Gnuplot2dDataset dataset;
+
+  wifiMac.SetType ("ns3::AdhocWifiMac");
+
+  NS_LOG_DEBUG ("54");
+  experiment = Experiment ("54mb");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate54Mbps"));
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("48");
+  experiment = Experiment ("48mb");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate48Mbps"));
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("36");
+  experiment = Experiment ("36mb");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate36Mbps"));
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("24");
+  experiment = Experiment ("24mb");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate24Mbps"));
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("18");
+  experiment = Experiment ("18mb");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate18Mbps"));
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("12");
+  experiment = Experiment ("12mb");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate12Mbps"));
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("9");
+  experiment = Experiment ("9mb");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate9Mbps"));
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("6");
+  experiment = Experiment ("6mb");
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode", StringValue ("OfdmRate6Mbps"));
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  gnuplot.GenerateOutput (std::cout);
+
+
+  gnuplot = Gnuplot ("rate-control.png");
+  wifi.SetStandard (WIFI_PHY_STANDARD_holland);
+
+
+  NS_LOG_DEBUG ("arf");
+  experiment = Experiment ("arf");
+  wifi.SetRemoteStationManager ("ns3::ArfWifiManager");
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("aarf");
+  experiment = Experiment ("aarf");
+  wifi.SetRemoteStationManager ("ns3::AarfWifiManager");
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("aarf-cd");
+  experiment = Experiment ("aarf-cd");
+  wifi.SetRemoteStationManager ("ns3::AarfcdWifiManager");
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("cara");
+  experiment = Experiment ("cara");
+  wifi.SetRemoteStationManager ("ns3::CaraWifiManager");
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("rraa");
+  experiment = Experiment ("rraa");
+  wifi.SetRemoteStationManager ("ns3::RraaWifiManager");
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  NS_LOG_DEBUG ("ideal");
+  experiment = Experiment ("ideal");
+  wifi.SetRemoteStationManager ("ns3::IdealWifiManager");
+  dataset = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+  gnuplot.AddDataset (dataset);
+
+  gnuplot.GenerateOutput (std::cout);
+
+  return 0;
+}
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2005,2006,2007 INRIA
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: Mathieu Lacage <mathieu.lacage@sophia.inria.fr>
+ */
+
+
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/applications-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/config-store-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/athstats-helper.h"
+
+#include <iostream>
+
+using namespace ns3;
+
+static bool g_verbose = true;
+
+void
+DevTxTrace (std::string context, Ptr<const Packet> p)
+{
+  if (g_verbose)
+    {
+      std::cout << " TX p: " << *p << std::endl;
+    }
+}
+void
+DevRxTrace (std::string context, Ptr<const Packet> p)
+{
+  if (g_verbose)
+    {
+      std::cout << " RX p: " << *p << std::endl;
+    }
+}
+void
+PhyRxOkTrace (std::string context, Ptr<const Packet> packet, double snr, WifiMode mode, enum WifiPreamble preamble)
+{
+  if (g_verbose)
+    {
+      std::cout << "PHYRXOK mode=" << mode << " snr=" << snr << " " << *packet << std::endl;
+    }
+}
+void
+PhyRxErrorTrace (std::string context, Ptr<const Packet> packet, double snr)
+{
+  if (g_verbose)
+    {
+      std::cout << "PHYRXERROR snr=" << snr << " " << *packet << std::endl;
+    }
+}
+void
+PhyTxTrace (std::string context, Ptr<const Packet> packet, WifiMode mode, WifiPreamble preamble, uint8_t txPower)
+{
+  if (g_verbose)
+    {
+      std::cout << "PHYTX mode=" << mode << " " << *packet << std::endl;
+    }
+}
+void
+PhyStateTrace (std::string context, Time start, Time duration, enum WifiPhy::State state)
+{
+  if (g_verbose)
+    {
+      std::cout << " state=" << state << " start=" << start << " duration=" << duration << std::endl;
+    }
+}
+
+static void
+SetPosition (Ptr<Node> node, Vector position)
+{
+  Ptr<MobilityModel> mobility = node->GetObject<MobilityModel> ();
+  mobility->SetPosition (position);
+}
+
+static Vector
+GetPosition (Ptr<Node> node)
+{
+  Ptr<MobilityModel> mobility = node->GetObject<MobilityModel> ();
+  return mobility->GetPosition ();
+}
+
+static void 
+AdvancePosition (Ptr<Node> node) 
+{
+  Vector pos = GetPosition (node);
+  pos.x += 5.0;
+  if (pos.x >= 210.0) 
+    {
+      return;
+    }
+  SetPosition (node, pos);
+
+  if (g_verbose)
+    {
+      //std::cout << "x="<<pos.x << std::endl;
+    }
+  Simulator::Schedule (Seconds (1.0), &AdvancePosition, node);
+}
+
+int main (int argc, char *argv[])
+{
+  CommandLine cmd;
+  cmd.AddValue ("verbose", "Print trace information if true", g_verbose);
+
+  cmd.Parse (argc, argv);
+
+  Packet::EnablePrinting ();
+
+  // enable rts cts all the time.
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue ("0"));
+  // disable fragmentation
+  Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
+
+  WifiHelper wifi = WifiHelper::Default ();
+  MobilityHelper mobility;
+  NodeContainer stas;
+  NodeContainer ap;
+  NetDeviceContainer staDevs;
+  PacketSocketHelper packetSocket;
+
+  stas.Create (2);
+  ap.Create (1);
+
+  // give packet socket powers to nodes.
+  packetSocket.Install (stas);
+  packetSocket.Install (ap);
+
+  NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+  YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default ();
+  YansWifiChannelHelper wifiChannel = YansWifiChannelHelper::Default ();
+  wifiPhy.SetChannel (wifiChannel.Create ());
+  Ssid ssid = Ssid ("wifi-default");
+  wifi.SetRemoteStationManager ("ns3::ArfWifiManager");
+  // setup stas.
+  wifiMac.SetType ("ns3::StaWifiMac",
+                   "Ssid", SsidValue (ssid),
+                   "ActiveProbing", BooleanValue (false));
+  staDevs = wifi.Install (wifiPhy, wifiMac, stas);
+  // setup ap.
+  wifiMac.SetType ("ns3::ApWifiMac",
+                   "Ssid", SsidValue (ssid));
+  wifi.Install (wifiPhy, wifiMac, ap);
+
+  // mobility.
+  mobility.Install (stas);
+  mobility.Install (ap);
+
+  Simulator::Schedule (Seconds (1.0), &AdvancePosition, ap.Get (0));
+
+  PacketSocketAddress socket;
+  socket.SetSingleDevice (staDevs.Get (0)->GetIfIndex ());
+  socket.SetPhysicalAddress (staDevs.Get (1)->GetAddress ());
+  socket.SetProtocol (1);
+
+  OnOffHelper onoff ("ns3::PacketSocketFactory", Address (socket));
+  onoff.SetAttribute ("OnTime", RandomVariableValue (ConstantVariable (42)));
+  onoff.SetAttribute ("OffTime", RandomVariableValue (ConstantVariable (0)));
+
+  ApplicationContainer apps = onoff.Install (stas.Get (0));
+  apps.Start (Seconds (0.5));
+  apps.Stop (Seconds (43.0));
+
+  Simulator::Stop (Seconds (44.0));
+
+  Config::Connect ("/NodeList/*/DeviceList/*/Mac/MacTx", MakeCallback (&DevTxTrace));
+  Config::Connect ("/NodeList/*/DeviceList/*/Mac/MacRx", MakeCallback (&DevRxTrace));
+  Config::Connect ("/NodeList/*/DeviceList/*/Phy/State/RxOk", MakeCallback (&PhyRxOkTrace));
+  Config::Connect ("/NodeList/*/DeviceList/*/Phy/State/RxError", MakeCallback (&PhyRxErrorTrace));
+  Config::Connect ("/NodeList/*/DeviceList/*/Phy/State/Tx", MakeCallback (&PhyTxTrace));
+  Config::Connect ("/NodeList/*/DeviceList/*/Phy/State/State", MakeCallback (&PhyStateTrace));
+
+  AthstatsHelper athstats;
+  athstats.EnableAthstats ("athstats-sta", stas);
+  athstats.EnableAthstats ("athstats-ap", ap);
+
+  Simulator::Run ();
+
+  Simulator::Destroy ();
+
+  return 0;
+}
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2009 MIRKO BANCHI
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as 
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: Mirko Banchi <mk.banchi@gmail.com>
+ */
+
+/**
+ * This is a simple example in order to show how 802.11n compressed block ack mechanism could be used.
+ *
+ * Network topology:
+ * 
+ *  Wifi 192.168.1.0
+ * 
+ *        AP
+ *   *    *
+ *   |    |
+ *   n1   n2 
+ *
+ * In this example a QoS sta sends UDP datagram packets to access point. On the access point
+ * there is no application installed so it replies to every packet with an ICMP frame. However
+ * our attention is on originator sta n1. We have set blockAckThreshold (mininum number of packets to use
+ * block ack) to 2 so if there are in the BestEffort queue more than 2 packets a block ack will be
+ * negotiated. We also set a timeout for block ack inactivity to 3 blocks of 1024 microseconds. This timer is
+ * reset when:
+ *    - the originator receives a block ack frame.
+ *    - the recipient receives a block ack request or a MPDU with ack policy Block Ack. 
+ */
+#include "ns3/core-module.h"
+#include "ns3/internet-module.h"
+#include "ns3/network-module.h"
+#include "ns3/applications-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/mobility-module.h"
+
+using namespace ns3;
+
+NS_LOG_COMPONENT_DEFINE ("Test-block-ack");
+
+int main (int argc, char const* argv[])
+{
+  LogComponentEnable ("EdcaTxopN", LOG_LEVEL_DEBUG);
+  LogComponentEnable ("BlockAckManager", LOG_LEVEL_INFO);
+ 
+  Ptr<Node> sta = CreateObject<Node> ();
+  Ptr<Node> ap = CreateObject<Node> ();
+
+  YansWifiChannelHelper channel = YansWifiChannelHelper::Default ();
+  YansWifiPhyHelper phy = YansWifiPhyHelper::Default ();
+  phy.SetChannel (channel.Create ());
+
+  WifiHelper wifi = WifiHelper::Default ();
+  QosWifiMacHelper mac = QosWifiMacHelper::Default ();
+  /* disable fragmentation */
+  wifi.SetRemoteStationManager ("ns3::AarfWifiManager", "FragmentationThreshold", UintegerValue (2500));
+
+  Ssid ssid ("My-network");
+
+  mac.SetType ("ns3::StaWifiMac",
+               "Ssid", SsidValue (ssid),
+               "ActiveProbing", BooleanValue (false));
+  /* setting blockack threshold for sta's BE queue */
+  mac.SetBlockAckThresholdForAc (AC_BE, 2);
+  /* setting block inactivity timeout to 3*1024 = 3072 microseconds */ 
+  //mac.SetBlockAckInactivityTimeoutForAc (AC_BE, 3);
+  NetDeviceContainer staDevice = wifi.Install (phy, mac, sta);
+
+  mac.SetType ("ns3::ApWifiMac",
+               "Ssid", SsidValue (ssid));
+  mac.SetBlockAckThresholdForAc (AC_BE, 0);
+  NetDeviceContainer apDevice = wifi.Install (phy, mac, ap);
+
+  /* Setting mobility model */
+  MobilityHelper mobility;
+
+  mobility.SetPositionAllocator ("ns3::GridPositionAllocator",
+                                 "MinX", DoubleValue (0.0),
+                                 "MinY", DoubleValue (0.0),
+                                 "DeltaX", DoubleValue (5.0),
+                                 "DeltaY", DoubleValue (10.0),
+                                 "GridWidth", UintegerValue (3),
+                                 "LayoutType", StringValue ("RowFirst"));
+
+  mobility.SetMobilityModel ("ns3::RandomWalk2dMobilityModel",
+                             "Bounds", RectangleValue (Rectangle (-50, 50, -50, 50)));
+  mobility.Install (sta);
+
+  mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+  mobility.Install (ap);
+
+  /* Internet stack*/
+  InternetStackHelper stack;
+  stack.Install (sta);
+  stack.Install (ap);
+
+  Ipv4AddressHelper address;
+
+  address.SetBase ("192.168.1.0", "255.255.255.0");
+  Ipv4InterfaceContainer staIf;
+  Ipv4InterfaceContainer apIf;
+  staIf = address.Assign (staDevice);
+  apIf = address.Assign (apDevice);
+
+  /* Setting applications */
+
+  uint16_t port = 9;
+
+  DataRate dataRate ("1Mb/s");
+  OnOffHelper onOff ("ns3::UdpSocketFactory", Address (InetSocketAddress (apIf.GetAddress (0), port)));
+  onOff.SetAttribute ("DataRate", DataRateValue (dataRate));
+  onOff.SetAttribute ("OnTime", RandomVariableValue (ConstantVariable (0.01)));
+  onOff.SetAttribute ("OffTime", RandomVariableValue (ConstantVariable (8)));
+  onOff.SetAttribute ("PacketSize", UintegerValue (50));
+
+  ApplicationContainer staApps = onOff.Install (sta);
+
+  staApps.Start (Seconds (1.0));
+  staApps.Stop (Seconds (10.0));
+
+  Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
+
+  Simulator::Stop (Seconds (10.0));
+
+  phy.EnablePcap ("test-blockack-2", ap->GetId (), 0);
+  Simulator::Run ();
+  Simulator::Destroy ();
+
+  return 0;
+}
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2009 The Boeing Company
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author: Guangyu Pei <guangyu.pei@boeing.com>
+ */
+
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/tools-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/internet-module.h"
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+
+NS_LOG_COMPONENT_DEFINE ("Main");
+
+using namespace ns3;
+
+class Experiment
+{
+public:
+  Experiment ();
+  Experiment (std::string name);
+  uint32_t Run (const WifiHelper &wifi, const YansWifiPhyHelper &wifiPhy,
+                const NqosWifiMacHelper &wifiMac, const YansWifiChannelHelper &wifiChannel);
+private:
+  void ReceivePacket (Ptr<Socket> socket);
+  void SetPosition (Ptr<Node> node, Vector position);
+  Vector GetPosition (Ptr<Node> node);
+  Ptr<Socket> SetupPacketReceive (Ptr<Node> node);
+  void GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, 
+                        uint32_t pktCount, Time pktInterval );
+
+  uint32_t m_pktsTotal;
+  Gnuplot2dDataset m_output;
+};
+
+Experiment::Experiment ()
+{
+}
+
+Experiment::Experiment (std::string name)
+  : m_output (name)
+{
+  m_output.SetStyle (Gnuplot2dDataset::LINES);
+}
+
+void
+Experiment::SetPosition (Ptr<Node> node, Vector position)
+{
+  Ptr<MobilityModel> mobility = node->GetObject<MobilityModel> ();
+  mobility->SetPosition (position);
+}
+
+Vector
+Experiment::GetPosition (Ptr<Node> node)
+{
+  Ptr<MobilityModel> mobility = node->GetObject<MobilityModel> ();
+  return mobility->GetPosition ();
+}
+
+void
+Experiment::ReceivePacket (Ptr<Socket> socket)
+{
+  Ptr<Packet> packet;
+  while (packet = socket->Recv ())
+    {
+      m_pktsTotal++;
+    }
+}
+
+Ptr<Socket>
+Experiment::SetupPacketReceive (Ptr<Node> node)
+{
+  TypeId tid = TypeId::LookupByName ("ns3::UdpSocketFactory");
+  Ptr<Socket> sink = Socket::CreateSocket (node, tid);
+  InetSocketAddress local = InetSocketAddress (Ipv4Address::GetAny (), 80);
+  sink->Bind (local);
+  sink->SetRecvCallback (MakeCallback (&Experiment::ReceivePacket, this));
+  return sink;
+}
+
+void
+Experiment::GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, 
+                             uint32_t pktCount, Time pktInterval )
+{
+  if (pktCount > 0)
+    {
+      socket->Send (Create<Packet> (pktSize));
+      Simulator::Schedule (pktInterval, &Experiment::GenerateTraffic, this, 
+                           socket, pktSize,pktCount-1, pktInterval);
+    }
+  else
+    {
+      socket->Close ();
+    }
+}
+
+uint32_t
+Experiment::Run (const WifiHelper &wifi, const YansWifiPhyHelper &wifiPhy,
+                 const NqosWifiMacHelper &wifiMac, const YansWifiChannelHelper &wifiChannel)
+{
+  m_pktsTotal = 0;
+
+  NodeContainer c;
+  c.Create (2);
+
+  InternetStackHelper internet;
+  internet.Install (c);
+
+  YansWifiPhyHelper phy = wifiPhy;
+  phy.SetChannel (wifiChannel.Create ());
+
+  NqosWifiMacHelper mac = wifiMac;
+  NetDeviceContainer devices = wifi.Install (phy, mac, c);
+
+  MobilityHelper mobility;
+  Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
+  positionAlloc->Add (Vector (0.0, 0.0, 0.0));
+  positionAlloc->Add (Vector (5.0, 0.0, 0.0));
+  mobility.SetPositionAllocator (positionAlloc);
+  mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+  mobility.Install (c);
+
+  Ipv4AddressHelper ipv4;
+  NS_LOG_INFO ("Assign IP Addresses.");
+  ipv4.SetBase ("10.1.1.0", "255.255.255.0");
+  Ipv4InterfaceContainer i = ipv4.Assign (devices);
+
+  Ptr<Socket> recvSink = SetupPacketReceive (c.Get (0));
+
+  TypeId tid = TypeId::LookupByName ("ns3::UdpSocketFactory");
+  Ptr<Socket> source = Socket::CreateSocket (c.Get (1), tid);
+  InetSocketAddress remote = InetSocketAddress (Ipv4Address ("255.255.255.255"), 80);
+  source->Connect (remote);
+  uint32_t packetSize = 1014;
+  uint32_t maxPacketCount = 200;
+  Time interPacketInterval = Seconds (1.);
+  Simulator::Schedule (Seconds (1.0), &Experiment::GenerateTraffic, 
+                       this, source, packetSize, maxPacketCount,interPacketInterval);
+  Simulator::Run ();
+
+  Simulator::Destroy ();
+
+  return m_pktsTotal;
+}
+
+int main (int argc, char *argv[])
+{
+  std::ofstream outfile ("clear-channel.plt");
+  std::vector <std::string> modes;
+
+  modes.push_back ("DsssRate1Mbps");
+  modes.push_back ("DsssRate2Mbps");
+  modes.push_back ("DsssRate5_5Mbps");
+  modes.push_back ("DsssRate11Mbps");
+  // disable fragmentation
+  Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue ("2200"));
+
+  CommandLine cmd;
+  cmd.Parse (argc, argv);
+
+  Gnuplot gnuplot = Gnuplot ("clear-channel.eps");
+
+  for (uint32_t i = 0; i < modes.size (); i++)
+    {
+      std::cout << modes[i] << std::endl;
+      Gnuplot2dDataset dataset (modes[i]);
+
+      for (double rss = -102.0; rss <= -80.0; rss += 0.5)
+        {
+          Experiment experiment;
+          dataset.SetStyle (Gnuplot2dDataset::LINES);
+ 
+          WifiHelper wifi;
+          wifi.SetStandard (WIFI_PHY_STANDARD_80211b);
+          NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+          Config::SetDefault ("ns3::WifiRemoteStationManager::NonUnicastMode",
+                              StringValue (modes[i]));
+          wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                        "DataMode",StringValue (modes[i]),
+                                        "ControlMode",StringValue (modes[i]));
+          wifiMac.SetType ("ns3::AdhocWifiMac");
+ 
+          YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default ();
+          YansWifiChannelHelper wifiChannel;
+          wifiChannel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
+          wifiChannel.AddPropagationLoss ("ns3::FixedRssLossModel","Rss",DoubleValue (rss));
+ 
+ 
+          NS_LOG_DEBUG (modes[i]);
+          experiment = Experiment (modes[i]);
+          wifiPhy.Set ("EnergyDetectionThreshold", DoubleValue (-110.0) );
+          wifiPhy.Set ("CcaMode1Threshold", DoubleValue (-110.0) );
+          wifiPhy.Set ("TxPowerStart", DoubleValue (15.0) );
+          wifiPhy.Set ("RxGain", DoubleValue (0) );
+          wifiPhy.Set ("RxNoiseFigure", DoubleValue (7) );
+          uint32_t pktsRecvd = experiment.Run (wifi, wifiPhy, wifiMac, wifiChannel);
+          dataset.Add (rss, pktsRecvd);
+        }
+
+      gnuplot.AddDataset (dataset);
+    }
+  gnuplot.SetTerminal ("postscript eps color enh \"Times-BoldItalic\"");
+  gnuplot.SetLegend ("RSS(dBm)", "Number of packets received");
+  gnuplot.SetExtra  ("set xrange [-102:-83]");
+  gnuplot.GenerateOutput (outfile);
+  outfile.close ();
+
+  return 0;
+}
+/* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2010 IITP RAS
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Authors: Pavel Boyko <boyko@iitp.ru>
+ */
+
+/*
+ * Classical hidden terminal problem and its RTS/CTS solution.
+ *
+ * Topology: [node 0] <-- -50 dB --> [node 1] <-- -50 dB --> [node 2]
+ * 
+ * This example illustrates the use of 
+ *  - Wifi in ad-hoc mode
+ *  - Matrix propagation loss model
+ *  - Use of OnOffApplication to generate CBR stream 
+ *  - IP flow monitor
+ */
+#include "ns3/core-module.h"
+#include "ns3/propagation-module.h"
+#include "ns3/network-module.h"
+#include "ns3/applications-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/internet-module.h"
+#include "ns3/flow-monitor-module.h"
+#include "ns3/wifi-module.h"
+
+using namespace ns3;
+
+/// Run single 10 seconds experiment with enabled or disabled RTS/CTS mechanism
+void experiment (bool enableCtsRts)
+{
+  // 0. Enable or disable CTS/RTS
+  UintegerValue ctsThr = (enableCtsRts ? UintegerValue (100) : UintegerValue (2200));
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", ctsThr);
+
+  // 1. Create 3 nodes 
+  NodeContainer nodes;
+  nodes.Create (3);
+
+  // 2. Place nodes somehow, this is required by every wireless simulation
+  for (size_t i = 0; i < 3; ++i)
+    {
+      nodes.Get (i)->AggregateObject (CreateObject<ConstantPositionMobilityModel> ());
+    }
+
+  // 3. Create propagation loss matrix
+  Ptr<MatrixPropagationLossModel> lossModel = CreateObject<MatrixPropagationLossModel> ();
+  lossModel->SetDefaultLoss (200); // set default loss to 200 dB (no link)
+  lossModel->SetLoss (nodes.Get (0)->GetObject<MobilityModel>(), nodes.Get (1)->GetObject<MobilityModel>(), 50); // set symmetric loss 0 <-> 1 to 50 dB
+  lossModel->SetLoss (nodes.Get (2)->GetObject<MobilityModel>(), nodes.Get (1)->GetObject<MobilityModel>(), 50); // set symmetric loss 2 <-> 1 to 50 dB
+
+  // 4. Create & setup wifi channel
+  Ptr<YansWifiChannel> wifiChannel = CreateObject <YansWifiChannel> ();
+  wifiChannel->SetPropagationLossModel (lossModel);
+  wifiChannel->SetPropagationDelayModel (CreateObject <ConstantSpeedPropagationDelayModel> ());
+
+  // 5. Install wireless devices
+  WifiHelper wifi;
+  wifi.SetStandard (WIFI_PHY_STANDARD_80211b);
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager", 
+                                "DataMode",StringValue ("DsssRate2Mbps"), 
+                                "ControlMode",StringValue ("DsssRate1Mbps"));
+  YansWifiPhyHelper wifiPhy =  YansWifiPhyHelper::Default ();
+  wifiPhy.SetChannel (wifiChannel);
+  NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+  wifiMac.SetType ("ns3::AdhocWifiMac"); // use ad-hoc MAC
+  NetDeviceContainer devices = wifi.Install (wifiPhy, wifiMac, nodes);
+
+  // uncomment the following to have athstats output
+  // AthstatsHelper athstats;
+  // athstats.EnableAthstats(enableCtsRts ? "basic-athstats-node" : "rtscts-athstats-node", nodes);
+
+  // uncomment the following to have pcap output
+  //wifiPhy.EnablePcap (enableCtsRts ? "basic-pcap-node" : "rtscts-pcap-node", nodes);
+
+
+  // 6. Install TCP/IP stack & assign IP addresses
+  InternetStackHelper internet;
+  internet.Install (nodes);
+  Ipv4AddressHelper ipv4;
+  ipv4.SetBase ("10.0.0.0", "255.0.0.0");
+  ipv4.Assign (devices);
+
+  // 7. Install applications: two CBR streams each saturating the channel 
+  ApplicationContainer cbrApps;
+  uint16_t cbrPort = 12345;
+  OnOffHelper onOffHelper ("ns3::UdpSocketFactory", InetSocketAddress (Ipv4Address ("10.0.0.2"), cbrPort));
+  onOffHelper.SetAttribute ("PacketSize", UintegerValue (200));
+  onOffHelper.SetAttribute ("OnTime",  RandomVariableValue (ConstantVariable (1)));
+  onOffHelper.SetAttribute ("OffTime", RandomVariableValue (ConstantVariable (0)));
+
+  // flow 1:  node 0 -> node 1
+  onOffHelper.SetAttribute ("DataRate", StringValue ("3000000bps"));
+  onOffHelper.SetAttribute ("StartTime", TimeValue (Seconds (1.000000)));
+  cbrApps.Add (onOffHelper.Install (nodes.Get (0))); 
+
+  // flow 2:  node 2 -> node 1
+  // The slightly different start times and data rates are a workround
+  // for Bug 388 and Bug 912
+  // http://www.nsnam.org/bugzilla/show_bug.cgi?id=912
+  // http://www.nsnam.org/bugzilla/show_bug.cgi?id=388
+  onOffHelper.SetAttribute ("DataRate", StringValue ("3001100bps"));
+  onOffHelper.SetAttribute ("StartTime", TimeValue (Seconds (1.001)));
+  cbrApps.Add (onOffHelper.Install (nodes.Get (2))); 
+
+  // we also use separate UDP applications that will send a single
+  // packet before the CBR flows start. 
+  // This is a workround for the lack of perfect ARP, see Bug 187
+  // http://www.nsnam.org/bugzilla/show_bug.cgi?id=187
+
+  uint16_t  echoPort = 9;
+  UdpEchoClientHelper echoClientHelper (Ipv4Address ("10.0.0.2"), echoPort);
+  echoClientHelper.SetAttribute ("MaxPackets", UintegerValue (1));
+  echoClientHelper.SetAttribute ("Interval", TimeValue (Seconds (0.1)));
+  echoClientHelper.SetAttribute ("PacketSize", UintegerValue (10));
+  ApplicationContainer pingApps;
+
+  // again using different start times to workaround Bug 388 and Bug 912
+  echoClientHelper.SetAttribute ("StartTime", TimeValue (Seconds (0.001)));
+  pingApps.Add (echoClientHelper.Install (nodes.Get (0))); 
+  echoClientHelper.SetAttribute ("StartTime", TimeValue (Seconds (0.006)));
+  pingApps.Add (echoClientHelper.Install (nodes.Get (2)));
+
+
+
+
+  // 8. Install FlowMonitor on all nodes
+  FlowMonitorHelper flowmon;
+  Ptr<FlowMonitor> monitor = flowmon.InstallAll ();
+
+  // 9. Run simulation for 10 seconds
+  Simulator::Stop (Seconds (10));
+  Simulator::Run ();
+
+  // 10. Print per flow statistics
+  monitor->CheckForLostPackets ();
+  Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier> (flowmon.GetClassifier ());
+  std::map<FlowId, FlowMonitor::FlowStats> stats = monitor->GetFlowStats ();
+  for (std::map<FlowId, FlowMonitor::FlowStats>::const_iterator i = stats.begin (); i != stats.end (); ++i)
+    {
+      // first 2 FlowIds are for ECHO apps, we don't want to display them
+      if (i->first > 2)
+        {
+          Ipv4FlowClassifier::FiveTuple t = classifier->FindFlow (i->first);
+          std::cout << "Flow " << i->first - 2 << " (" << t.sourceAddress << " -> " << t.destinationAddress << ")\n";           std::cout << "  Tx Bytes:   " << i->second.txBytes << "\n";
+          std::cout << "  Rx Bytes:   " << i->second.rxBytes << "\n";
+          std::cout << "  Throughput: " << i->second.rxBytes * 8.0 / 10.0 / 1024 / 1024  << " Mbps\n";
+        }
+    }
+
+  // 11. Cleanup
+  Simulator::Destroy ();
+}
+
+int main (int argc, char **argv)
+{
+  std::cout << "Hidden station experiment with RTS/CTS disabled:\n" << std::flush;
+  experiment (false);
+  std::cout << "------------------------------------------------\n";
+  std::cout << "Hidden station experiment with RTS/CTS enabled:\n";
+  experiment (true);
+
+  return 0;
+}
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2009 University of Washington
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+//
+// This program configures a grid (default 5x5) of nodes on an 
+// 802.11b physical layer, with
+// 802.11b NICs in adhoc mode, and by default, sends one packet of 1000 
+// (application) bytes to node 1.
+//
+// The default layout is like this, on a 2-D grid.
+//
+// n20  n21  n22  n23  n24
+// n15  n16  n17  n18  n19
+// n10  n11  n12  n13  n14
+// n5   n6   n7   n8   n9
+// n0   n1   n2   n3   n4
+//
+// the layout is affected by the parameters given to GridPositionAllocator;
+// by default, GridWidth is 5 and numNodes is 25..
+//
+// There are a number of command-line options available to control
+// the default behavior.  The list of available command-line options
+// can be listed with the following command:
+// ./waf --run "wifi-simple-adhoc-grid --help"
+//
+// Note that all ns-3 attributes (not just the ones exposed in the below
+// script) can be changed at command line; see the ns-3 documentation.
+//
+// For instance, for this configuration, the physical layer will
+// stop successfully receiving packets when distance increases beyond
+// the default of 500m.
+// To see this effect, try running:
+//
+// ./waf --run "wifi-simple-adhoc --distance=500"
+// ./waf --run "wifi-simple-adhoc --distance=1000"
+// ./waf --run "wifi-simple-adhoc --distance=1500"
+// 
+// The source node and sink node can be changed like this:
+// 
+// ./waf --run "wifi-simple-adhoc --sourceNode=20 --sinkNode=10"
+//
+// This script can also be helpful to put the Wifi layer into verbose
+// logging mode; this command will turn on all wifi logging:
+// 
+// ./waf --run "wifi-simple-adhoc-grid --verbose=1"
+//
+// By default, trace file writing is off-- to enable it, try:
+// ./waf --run "wifi-simple-adhoc-grid --tracing=1"
+//
+// When you are done tracing, you will notice many pcap trace files 
+// in your directory.  If you have tcpdump installed, you can try this:
+//
+// tcpdump -r wifi-simple-adhoc-grid-0-0.pcap -nn -tt
+//
+
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/config-store-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/internet-module.h"
+#include "ns3/olsr-helper.h"
+#include "ns3/ipv4-static-routing-helper.h"
+#include "ns3/ipv4-list-routing-helper.h"
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+
+NS_LOG_COMPONENT_DEFINE ("WifiSimpleAdhocGrid");
+
+using namespace ns3;
+
+void ReceivePacket (Ptr<Socket> socket)
+{
+  NS_LOG_UNCOND ("Received one packet!");
+}
+
+static void GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, 
+                             uint32_t pktCount, Time pktInterval )
+{
+  if (pktCount > 0)
+    {
+      socket->Send (Create<Packet> (pktSize));
+      Simulator::Schedule (pktInterval, &GenerateTraffic, 
+                           socket, pktSize,pktCount-1, pktInterval);
+    }
+  else
+    {
+      socket->Close ();
+    }
+}
+
+
+int main (int argc, char *argv[])
+{
+  std::string phyMode ("DsssRate1Mbps");
+  double distance = 500;  // m
+  uint32_t packetSize = 1000; // bytes
+  uint32_t numPackets = 1;
+  uint32_t numNodes = 25;  // by default, 5x5
+  uint32_t sinkNode = 0;
+  uint32_t sourceNode = 24;
+  double interval = 1.0; // seconds
+  bool verbose = false;
+  bool tracing = false;
+
+  CommandLine cmd;
+
+  cmd.AddValue ("phyMode", "Wifi Phy mode", phyMode);
+  cmd.AddValue ("distance", "distance (m)", distance);
+  cmd.AddValue ("packetSize", "size of application packet sent", packetSize);
+  cmd.AddValue ("numPackets", "number of packets generated", numPackets);
+  cmd.AddValue ("interval", "interval (seconds) between packets", interval);
+  cmd.AddValue ("verbose", "turn on all WifiNetDevice log components", verbose);
+  cmd.AddValue ("tracing", "turn on ascii and pcap tracing", tracing);
+  cmd.AddValue ("numNodes", "number of nodes", numNodes);
+  cmd.AddValue ("sinkNode", "Receiver node number", sinkNode);
+  cmd.AddValue ("sourceNode", "Sender node number", sourceNode);
+
+  cmd.Parse (argc, argv);
+  // Convert to time object
+  Time interPacketInterval = Seconds (interval);
+
+  // disable fragmentation for frames below 2200 bytes
+  Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
+  // turn off RTS/CTS for frames below 2200 bytes
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue ("2200"));
+  // Fix non-unicast data rate to be the same as that of unicast
+  Config::SetDefault ("ns3::WifiRemoteStationManager::NonUnicastMode", 
+                      StringValue (phyMode));
+
+  NodeContainer c;
+  c.Create (numNodes);
+
+  // The below set of helpers will help us to put together the wifi NICs we want
+  WifiHelper wifi;
+  if (verbose)
+    {
+      wifi.EnableLogComponents ();  // Turn on all Wifi logging
+    }
+
+  YansWifiPhyHelper wifiPhy =  YansWifiPhyHelper::Default ();
+  // set it to zero; otherwise, gain will be added
+  wifiPhy.Set ("RxGain", DoubleValue (-10) ); 
+  // ns-3 supports RadioTap and Prism tracing extensions for 802.11b
+  wifiPhy.SetPcapDataLinkType (YansWifiPhyHelper::DLT_IEEE802_11_RADIO); 
+
+  YansWifiChannelHelper wifiChannel;
+  wifiChannel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
+  wifiChannel.AddPropagationLoss ("ns3::FriisPropagationLossModel");
+  wifiPhy.SetChannel (wifiChannel.Create ());
+
+  // Add a non-QoS upper mac, and disable rate control
+  NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+  wifi.SetStandard (WIFI_PHY_STANDARD_80211b);
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode",StringValue (phyMode),
+                                "ControlMode",StringValue (phyMode));
+  // Set it to adhoc mode
+  wifiMac.SetType ("ns3::AdhocWifiMac");
+  NetDeviceContainer devices = wifi.Install (wifiPhy, wifiMac, c);
+
+  MobilityHelper mobility;
+  mobility.SetPositionAllocator ("ns3::GridPositionAllocator",
+                                 "MinX", DoubleValue (0.0),
+                                 "MinY", DoubleValue (0.0),
+                                 "DeltaX", DoubleValue (distance),
+                                 "DeltaY", DoubleValue (distance),
+                                 "GridWidth", UintegerValue (5),
+                                 "LayoutType", StringValue ("RowFirst"));
+  mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+  mobility.Install (c);
+
+  // Enable OLSR
+  OlsrHelper olsr;
+  Ipv4StaticRoutingHelper staticRouting;
+
+  Ipv4ListRoutingHelper list;
+  list.Add (staticRouting, 0);
+  list.Add (olsr, 10);
+
+  InternetStackHelper internet;
+  internet.SetRoutingHelper (list); // has effect on the next Install ()
+  internet.Install (c);
+
+  Ipv4AddressHelper ipv4;
+  NS_LOG_INFO ("Assign IP Addresses.");
+  ipv4.SetBase ("10.1.1.0", "255.255.255.0");
+  Ipv4InterfaceContainer i = ipv4.Assign (devices);
+
+  TypeId tid = TypeId::LookupByName ("ns3::UdpSocketFactory");
+  Ptr<Socket> recvSink = Socket::CreateSocket (c.Get (sinkNode), tid);
+  InetSocketAddress local = InetSocketAddress (Ipv4Address::GetAny (), 80);
+  recvSink->Bind (local);
+  recvSink->SetRecvCallback (MakeCallback (&ReceivePacket));
+
+  Ptr<Socket> source = Socket::CreateSocket (c.Get (sourceNode), tid);
+  InetSocketAddress remote = InetSocketAddress (i.GetAddress (sinkNode, 0), 80);
+  source->Connect (remote);
+
+  if (tracing == true)
+    {
+      AsciiTraceHelper ascii;
+      wifiPhy.EnableAsciiAll (ascii.CreateFileStream ("wifi-simple-adhoc-grid.tr"));
+      wifiPhy.EnablePcap ("wifi-simple-adhoc-grid", devices);
+      // Trace routing tables
+      Ptr<OutputStreamWrapper> routingStream = Create<OutputStreamWrapper> ("wifi-simple-adhoc-grid.routes", std::ios::out);
+      olsr.PrintRoutingTableAllEvery (Seconds (2), routingStream);
+
+      // To do-- enable an IP-level trace that shows forwarding events only
+    }
+
+  // Give OLSR time to converge-- 30 seconds perhaps
+  Simulator::Schedule (Seconds (30.0), &GenerateTraffic, 
+                       source, packetSize, numPackets, interPacketInterval);
+
+  // Output what we are doing
+  NS_LOG_UNCOND ("Testing from node " << sourceNode << " to " << sinkNode << " with grid distance " << distance);
+
+  Simulator::Stop (Seconds (32.0));
+  Simulator::Run ();
+  Simulator::Destroy ();
+
+  return 0;
+}
+
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2009 The Boeing Company
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+// 
+// This script configures two nodes on an 802.11b physical layer, with
+// 802.11b NICs in adhoc mode, and by default, sends one packet of 1000 
+// (application) bytes to the other node.  The physical layer is configured
+// to receive at a fixed RSS (regardless of the distance and transmit
+// power); therefore, changing position of the nodes has no effect. 
+//
+// There are a number of command-line options available to control
+// the default behavior.  The list of available command-line options
+// can be listed with the following command:
+// ./waf --run "wifi-simple-adhoc --help"
+//
+// For instance, for this configuration, the physical layer will
+// stop successfully receiving packets when rss drops below -97 dBm.
+// To see this effect, try running:
+//
+// ./waf --run "wifi-simple-adhoc --rss=-97 --numPackets=20"
+// ./waf --run "wifi-simple-adhoc --rss=-98 --numPackets=20"
+// ./waf --run "wifi-simple-adhoc --rss=-99 --numPackets=20"
+//
+// Note that all ns-3 attributes (not just the ones exposed in the below
+// script) can be changed at command line; see the documentation.
+//
+// This script can also be helpful to put the Wifi layer into verbose
+// logging mode; this command will turn on all wifi logging:
+// 
+// ./waf --run "wifi-simple-adhoc --verbose=1"
+//
+// When you are done, you will notice two pcap trace files in your directory.
+// If you have tcpdump installed, you can try this:
+//
+// tcpdump -r wifi-simple-adhoc-0-0.pcap -nn -tt
+//
+
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/config-store-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/internet-module.h"
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+
+NS_LOG_COMPONENT_DEFINE ("WifiSimpleAdhoc");
+
+using namespace ns3;
+
+void ReceivePacket (Ptr<Socket> socket)
+{
+  NS_LOG_UNCOND ("Received one packet!");
+}
+
+static void GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, 
+                             uint32_t pktCount, Time pktInterval )
+{
+  if (pktCount > 0)
+    {
+      socket->Send (Create<Packet> (pktSize));
+      Simulator::Schedule (pktInterval, &GenerateTraffic, 
+                           socket, pktSize,pktCount-1, pktInterval);
+    }
+  else
+    {
+      socket->Close ();
+    }
+}
+
+
+int main (int argc, char *argv[])
+{
+  std::string phyMode ("DsssRate1Mbps");
+  double rss = -80;  // -dBm
+  uint32_t packetSize = 1000; // bytes
+  uint32_t numPackets = 1;
+  double interval = 1.0; // seconds
+  bool verbose = false;
+
+  CommandLine cmd;
+
+  cmd.AddValue ("phyMode", "Wifi Phy mode", phyMode);
+  cmd.AddValue ("rss", "received signal strength", rss);
+  cmd.AddValue ("packetSize", "size of application packet sent", packetSize);
+  cmd.AddValue ("numPackets", "number of packets generated", numPackets);
+  cmd.AddValue ("interval", "interval (seconds) between packets", interval);
+  cmd.AddValue ("verbose", "turn on all WifiNetDevice log components", verbose);
+
+  cmd.Parse (argc, argv);
+  // Convert to time object
+  Time interPacketInterval = Seconds (interval);
+
+  // disable fragmentation for frames below 2200 bytes
+  Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
+  // turn off RTS/CTS for frames below 2200 bytes
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue ("2200"));
+  // Fix non-unicast data rate to be the same as that of unicast
+  Config::SetDefault ("ns3::WifiRemoteStationManager::NonUnicastMode", 
+                      StringValue (phyMode));
+
+  NodeContainer c;
+  c.Create (2);
+
+  // The below set of helpers will help us to put together the wifi NICs we want
+  WifiHelper wifi;
+  if (verbose)
+    {
+      wifi.EnableLogComponents ();  // Turn on all Wifi logging
+    }
+  wifi.SetStandard (WIFI_PHY_STANDARD_80211b);
+
+  YansWifiPhyHelper wifiPhy =  YansWifiPhyHelper::Default ();
+  // This is one parameter that matters when using FixedRssLossModel
+  // set it to zero; otherwise, gain will be added
+  wifiPhy.Set ("RxGain", DoubleValue (0) ); 
+  // ns-3 supports RadioTap and Prism tracing extensions for 802.11b
+  wifiPhy.SetPcapDataLinkType (YansWifiPhyHelper::DLT_IEEE802_11_RADIO); 
+
+  YansWifiChannelHelper wifiChannel;
+  wifiChannel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
+  // The below FixedRssLossModel will cause the rss to be fixed regardless
+  // of the distance between the two stations, and the transmit power
+  wifiChannel.AddPropagationLoss ("ns3::FixedRssLossModel","Rss",DoubleValue (rss));
+  wifiPhy.SetChannel (wifiChannel.Create ());
+
+  // Add a non-QoS upper mac, and disable rate control
+  NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode",StringValue (phyMode),
+                                "ControlMode",StringValue (phyMode));
+  // Set it to adhoc mode
+  wifiMac.SetType ("ns3::AdhocWifiMac");
+  NetDeviceContainer devices = wifi.Install (wifiPhy, wifiMac, c);
+
+  // Note that with FixedRssLossModel, the positions below are not 
+  // used for received signal strength. 
+  MobilityHelper mobility;
+  Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
+  positionAlloc->Add (Vector (0.0, 0.0, 0.0));
+  positionAlloc->Add (Vector (5.0, 0.0, 0.0));
+  mobility.SetPositionAllocator (positionAlloc);
+  mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+  mobility.Install (c);
+
+  InternetStackHelper internet;
+  internet.Install (c);
+
+  Ipv4AddressHelper ipv4;
+  NS_LOG_INFO ("Assign IP Addresses.");
+  ipv4.SetBase ("10.1.1.0", "255.255.255.0");
+  Ipv4InterfaceContainer i = ipv4.Assign (devices);
+
+  TypeId tid = TypeId::LookupByName ("ns3::UdpSocketFactory");
+  Ptr<Socket> recvSink = Socket::CreateSocket (c.Get (0), tid);
+  InetSocketAddress local = InetSocketAddress (Ipv4Address::GetAny (), 80);
+  recvSink->Bind (local);
+  recvSink->SetRecvCallback (MakeCallback (&ReceivePacket));
+
+  Ptr<Socket> source = Socket::CreateSocket (c.Get (1), tid);
+  InetSocketAddress remote = InetSocketAddress (Ipv4Address ("255.255.255.255"), 80);
+  source->SetAllowBroadcast (true);
+  source->Connect (remote);
+
+  // Tracing
+  wifiPhy.EnablePcap ("wifi-simple-adhoc", devices);
+
+  // Output what we are doing
+  NS_LOG_UNCOND ("Testing " << numPackets  << " packets sent with receiver rss " << rss );
+
+  Simulator::ScheduleWithContext (source->GetNode ()->GetId (),
+                                  Seconds (1.0), &GenerateTraffic, 
+                                  source, packetSize, numPackets, interPacketInterval);
+
+  Simulator::Run ();
+  Simulator::Destroy ();
+
+  return 0;
+}
+
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2009 The Boeing Company
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+// 
+// This script configures two nodes on an 802.11b physical layer, with
+// 802.11b NICs in infrastructure mode, and by default, the station sends 
+// one packet of 1000 (application) bytes to the access point.  The 
+// physical layer is configured
+// to receive at a fixed RSS (regardless of the distance and transmit
+// power); therefore, changing position of the nodes has no effect. 
+//
+// There are a number of command-line options available to control
+// the default behavior.  The list of available command-line options
+// can be listed with the following command:
+// ./waf --run "wifi-simple-infra --help"
+//
+// For instance, for this configuration, the physical layer will
+// stop successfully receiving packets when rss drops below -97 dBm.
+// To see this effect, try running:
+//
+// ./waf --run "wifi-simple-infra --rss=-97 --numPackets=20"
+// ./waf --run "wifi-simple-infra --rss=-98 --numPackets=20"
+// ./waf --run "wifi-simple-infra --rss=-99 --numPackets=20"
+//
+// Note that all ns-3 attributes (not just the ones exposed in the below
+// script) can be changed at command line; see the documentation.
+//
+// This script can also be helpful to put the Wifi layer into verbose
+// logging mode; this command will turn on all wifi logging:
+// 
+// ./waf --run "wifi-simple-infra --verbose=1"
+//
+// When you are done, you will notice two pcap trace files in your directory.
+// If you have tcpdump installed, you can try this:
+//
+// tcpdump -r wifi-simple-infra-0-0.pcap -nn -tt
+//
+
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/config-store-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/internet-module.h"
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+
+NS_LOG_COMPONENT_DEFINE ("WifiSimpleInfra");
+
+using namespace ns3;
+
+void ReceivePacket (Ptr<Socket> socket)
+{
+  NS_LOG_UNCOND ("Received one packet!");
+}
+
+static void GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, 
+                             uint32_t pktCount, Time pktInterval )
+{
+  if (pktCount > 0)
+    {
+      socket->Send (Create<Packet> (pktSize));
+      Simulator::Schedule (pktInterval, &GenerateTraffic, 
+                           socket, pktSize,pktCount-1, pktInterval);
+    }
+  else
+    {
+      socket->Close ();
+    }
+}
+
+
+int main (int argc, char *argv[])
+{
+  std::string phyMode ("DsssRate1Mbps");
+  double rss = -80;  // -dBm
+  uint32_t packetSize = 1000; // bytes
+  uint32_t numPackets = 1;
+  double interval = 1.0; // seconds
+  bool verbose = false;
+
+  CommandLine cmd;
+
+  cmd.AddValue ("phyMode", "Wifi Phy mode", phyMode);
+  cmd.AddValue ("rss", "received signal strength", rss);
+  cmd.AddValue ("packetSize", "size of application packet sent", packetSize);
+  cmd.AddValue ("numPackets", "number of packets generated", numPackets);
+  cmd.AddValue ("interval", "interval (seconds) between packets", interval);
+  cmd.AddValue ("verbose", "turn on all WifiNetDevice log components", verbose);
+
+  cmd.Parse (argc, argv);
+  // Convert to time object
+  Time interPacketInterval = Seconds (interval);
+
+  // disable fragmentation for frames below 2200 bytes
+  Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
+  // turn off RTS/CTS for frames below 2200 bytes
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue ("2200"));
+  // Fix non-unicast data rate to be the same as that of unicast
+  Config::SetDefault ("ns3::WifiRemoteStationManager::NonUnicastMode", 
+                      StringValue (phyMode));
+
+  NodeContainer c;
+  c.Create (2);
+
+  // The below set of helpers will help us to put together the wifi NICs we want
+  WifiHelper wifi;
+  if (verbose)
+    {
+      wifi.EnableLogComponents ();  // Turn on all Wifi logging
+    }
+  wifi.SetStandard (WIFI_PHY_STANDARD_80211b);
+
+  YansWifiPhyHelper wifiPhy =  YansWifiPhyHelper::Default ();
+  // This is one parameter that matters when using FixedRssLossModel
+  // set it to zero; otherwise, gain will be added
+  wifiPhy.Set ("RxGain", DoubleValue (0) ); 
+  // ns-3 supports RadioTap and Prism tracing extensions for 802.11b
+  wifiPhy.SetPcapDataLinkType (YansWifiPhyHelper::DLT_IEEE802_11_RADIO); 
+
+  YansWifiChannelHelper wifiChannel;
+  wifiChannel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
+  // The below FixedRssLossModel will cause the rss to be fixed regardless
+  // of the distance between the two stations, and the transmit power
+  wifiChannel.AddPropagationLoss ("ns3::FixedRssLossModel","Rss",DoubleValue (rss));
+  wifiPhy.SetChannel (wifiChannel.Create ());
+
+  // Add a non-QoS upper mac, and disable rate control
+  NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode",StringValue (phyMode),
+                                "ControlMode",StringValue (phyMode));
+
+  // Setup the rest of the upper mac
+  Ssid ssid = Ssid ("wifi-default");
+  // setup sta.
+  wifiMac.SetType ("ns3::StaWifiMac",
+                   "Ssid", SsidValue (ssid),
+                   "ActiveProbing", BooleanValue (false));
+  NetDeviceContainer staDevice = wifi.Install (wifiPhy, wifiMac, c.Get (0));
+  NetDeviceContainer devices = staDevice;
+  // setup ap.
+  wifiMac.SetType ("ns3::ApWifiMac",
+                   "Ssid", SsidValue (ssid));
+  NetDeviceContainer apDevice = wifi.Install (wifiPhy, wifiMac, c.Get (1));
+  devices.Add (apDevice);
+
+  // Note that with FixedRssLossModel, the positions below are not 
+  // used for received signal strength. 
+  MobilityHelper mobility;
+  Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
+  positionAlloc->Add (Vector (0.0, 0.0, 0.0));
+  positionAlloc->Add (Vector (5.0, 0.0, 0.0));
+  mobility.SetPositionAllocator (positionAlloc);
+  mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+  mobility.Install (c);
+
+  InternetStackHelper internet;
+  internet.Install (c);
+
+  Ipv4AddressHelper ipv4;
+  NS_LOG_INFO ("Assign IP Addresses.");
+  ipv4.SetBase ("10.1.1.0", "255.255.255.0");
+  Ipv4InterfaceContainer i = ipv4.Assign (devices);
+
+  TypeId tid = TypeId::LookupByName ("ns3::UdpSocketFactory");
+  Ptr<Socket> recvSink = Socket::CreateSocket (c.Get (0), tid);
+  InetSocketAddress local = InetSocketAddress (Ipv4Address::GetAny (), 80);
+  recvSink->Bind (local);
+  recvSink->SetRecvCallback (MakeCallback (&ReceivePacket));
+
+  Ptr<Socket> source = Socket::CreateSocket (c.Get (1), tid);
+  InetSocketAddress remote = InetSocketAddress (Ipv4Address ("255.255.255.255"), 80);
+  source->SetAllowBroadcast (true);
+  source->Connect (remote);
+
+  // Tracing
+  wifiPhy.EnablePcap ("wifi-simple-infra", devices);
+
+  // Output what we are doing
+  NS_LOG_UNCOND ("Testing " << numPackets  << " packets sent with receiver rss " << rss );
+
+  Simulator::ScheduleWithContext (source->GetNode ()->GetId (),
+                                  Seconds (1.0), &GenerateTraffic, 
+                                  source, packetSize, numPackets, interPacketInterval);
+
+  Simulator::Stop (Seconds (30.0));
+  Simulator::Run ();
+  Simulator::Destroy ();
+
+  return 0;
+}
+
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2009 The Boeing Company
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
+// 
+// This script configures three nodes on an 802.11b physical layer, with
+// 802.11b NICs in adhoc mode.  There is a transmitter, receiver, and
+// interferer.  The transmitter sends one packet to the receiver and
+// the receiver receives it with a certain configurable RSS (by default,
+// -80 dBm).  The interferer does not do carrier sense and also sends
+// the packet to interfere with the primary packet.  The channel model
+// is clear channel.
+//
+// Therefore, at the receiver, the reception looks like this:
+//
+//     ------------------time---------------->
+//     t0
+//
+//     |------------------------------------|
+//     |                                    |
+//     | primary received frame (time t0)   | 
+//     |                                    |
+//     |------------------------------------|
+//
+//
+//         t1
+//         |-----------------------------------|
+//         |                                   |
+//         |  interfering frame (time t1)      |
+//         |                                   | 
+//         |-----------------------------------| 
+//
+// The orientation is:
+//     n2  ---------> n0 <---------- n1
+//  interferer      receiver       transmitter
+//
+// The configurable parameters are:
+//   - Prss (primary rss) (-80 dBm default)
+//   - Irss (interfering rss) (-95 dBm default)
+//   - delta (microseconds, (t1-t0), may be negative, default 0)
+//   - PpacketSize (primary packet size) (bytes, default 1000)
+//   - IpacketSize (interferer packet size) (bytes, default 1000)
+//
+// For instance, for this configuration, the interfering frame arrives
+// at -90 dBm with a time offset of 3.2 microseconds:
+//
+// ./waf --run "wifi-simple-interference --Irss=-90 --delta=3.2"
+//
+// Note that all ns-3 attributes (not just the ones exposed in the below
+// script) can be changed at command line; see the documentation.
+//
+// This script can also be helpful to put the Wifi layer into verbose
+// logging mode; this command will turn on all wifi logging:
+// 
+// ./waf --run "wifi-simple-interference --verbose=1"
+//
+// When you are done, you will notice a pcap trace file in your directory.
+// If you have tcpdump installed, you can try this:
+//
+// tcpdump -r wifi-simple-interference-0-0.pcap -nn -tt
+// reading from file wifi-simple-interference-0-0.pcap, link-type IEEE802_11_RADIO (802.11 plus BSD radio information header)
+// 10.008704 10008704us tsft 1.0 Mb/s 2437 MHz (0x00c0) -80dB signal -98dB noise IP 10.1.1.2.49153 > 10.1.1.255.80: UDP, length 1000
+//
+// Next, try this command and look at the tcpdump-- you should see two packets
+// that are no longer interfering:
+// ./waf --run "wifi-simple-interference --delta=30000"
+
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/config-store-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/internet-module.h"
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+
+NS_LOG_COMPONENT_DEFINE ("WifiSimpleInterference");
+
+using namespace ns3;
+
+void ReceivePacket (Ptr<Socket> socket)
+{
+  Address addr;
+  socket->GetSockName (addr);
+  InetSocketAddress iaddr = InetSocketAddress::ConvertFrom (addr);
+  NS_LOG_UNCOND ("Received one packet!  Socket: " << iaddr.GetIpv4 () << " port: " << iaddr.GetPort ());
+  //cast iaddr to void, to suppress iaddr set but not used compiler warning
+  //in optimized builds
+  (void) iaddr;
+}
+
+static void GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, 
+                             uint32_t pktCount, Time pktInterval )
+{
+  if (pktCount > 0)
+    {
+      socket->Send (Create<Packet> (pktSize));
+      Simulator::Schedule (pktInterval, &GenerateTraffic, 
+                           socket, pktSize,pktCount-1, pktInterval);
+    }
+  else
+    {
+      socket->Close ();
+    }
+}
+
+
+int main (int argc, char *argv[])
+{
+//  LogComponentEnable ("InterferenceHelper", LOG_LEVEL_ALL);
+ 
+  std::string phyMode ("DsssRate1Mbps");
+  double Prss = -80;  // -dBm
+  double Irss = -95;  // -dBm
+  double delta = 0;  // microseconds
+  uint32_t PpacketSize = 1000; // bytes
+  uint32_t IpacketSize = 1000; // bytes
+  bool verbose = false;
+
+  // these are not command line arguments for this version
+  uint32_t numPackets = 1;
+  double interval = 1.0; // seconds
+  double startTime = 10.0; // seconds
+  double distanceToRx = 100.0; // meters
+
+  double offset = 91;  // This is a magic number used to set the 
+                       // transmit power, based on other configuration
+  CommandLine cmd;
+
+  cmd.AddValue ("phyMode", "Wifi Phy mode", phyMode);
+  cmd.AddValue ("Prss", "Intended primary received signal strength (dBm)", Prss);
+  cmd.AddValue ("Irss", "Intended interfering received signal strength (dBm)", Irss);
+  cmd.AddValue ("delta", "time offset (microseconds) for interfering signal", delta);
+  cmd.AddValue ("PpacketSize", "size of application packet sent", PpacketSize);
+  cmd.AddValue ("IpacketSize", "size of interfering packet sent", IpacketSize);
+  cmd.AddValue ("verbose", "turn on all WifiNetDevice log components", verbose);
+
+  cmd.Parse (argc, argv);
+  // Convert to time object
+  Time interPacketInterval = Seconds (interval);
+
+  // disable fragmentation for frames below 2200 bytes
+  Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
+  // turn off RTS/CTS for frames below 2200 bytes
+  Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue ("2200"));
+  // Fix non-unicast data rate to be the same as that of unicast
+  Config::SetDefault ("ns3::WifiRemoteStationManager::NonUnicastMode", 
+                      StringValue (phyMode));
+
+  NodeContainer c;
+  c.Create (3);
+
+  // The below set of helpers will help us to put together the wifi NICs we want
+  WifiHelper wifi;
+  if (verbose)
+    {
+      wifi.EnableLogComponents ();  // Turn on all Wifi logging
+    }
+  wifi.SetStandard (WIFI_PHY_STANDARD_80211b);
+
+  YansWifiPhyHelper wifiPhy =  YansWifiPhyHelper::Default ();
+  // set it to zero; otherwise, gain will be added
+  wifiPhy.Set ("RxGain", DoubleValue (0) ); 
+  wifiPhy.Set ("CcaMode1Threshold", DoubleValue (0.0) );
+
+  // ns-3 supports RadioTap and Prism tracing extensions for 802.11b
+  wifiPhy.SetPcapDataLinkType (YansWifiPhyHelper::DLT_IEEE802_11_RADIO); 
+
+  YansWifiChannelHelper wifiChannel;
+  wifiChannel.SetPropagationDelay ("ns3::ConstantSpeedPropagationDelayModel");
+  wifiChannel.AddPropagationLoss ("ns3::LogDistancePropagationLossModel");
+  wifiPhy.SetChannel (wifiChannel.Create ());
+
+  // Add a non-QoS upper mac, and disable rate control
+  NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+  wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
+                                "DataMode",StringValue (phyMode),
+                                "ControlMode",StringValue (phyMode));
+  // Set it to adhoc mode
+  wifiMac.SetType ("ns3::AdhocWifiMac");
+  NetDeviceContainer devices = wifi.Install (wifiPhy, wifiMac, c.Get (0));
+  // This will disable these sending devices from detecting a signal 
+  // so that they do not backoff
+  wifiPhy.Set ("EnergyDetectionThreshold", DoubleValue (0.0) );
+  wifiPhy.Set ("TxGain", DoubleValue (offset + Prss) ); 
+  devices.Add (wifi.Install (wifiPhy, wifiMac, c.Get (1)));
+  wifiPhy.Set ("TxGain", DoubleValue (offset + Irss) ); 
+  devices.Add (wifi.Install (wifiPhy, wifiMac, c.Get (2)));
+
+  // Note that with FixedRssLossModel, the positions below are not 
+  // used for received signal strength. 
+  MobilityHelper mobility;
+  Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
+  positionAlloc->Add (Vector (0.0, 0.0, 0.0));
+  positionAlloc->Add (Vector (distanceToRx, 0.0, 0.0));
+  positionAlloc->Add (Vector (-1*distanceToRx, 0.0, 0.0));
+  mobility.SetPositionAllocator (positionAlloc);
+  mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+  mobility.Install (c);
+
+  InternetStackHelper internet;
+  internet.Install (c);
+
+  Ipv4AddressHelper ipv4;
+  NS_LOG_INFO ("Assign IP Addresses.");
+  ipv4.SetBase ("10.1.1.0", "255.255.255.0");
+  Ipv4InterfaceContainer i = ipv4.Assign (devices);
+
+  TypeId tid = TypeId::LookupByName ("ns3::UdpSocketFactory");
+  Ptr<Socket> recvSink = Socket::CreateSocket (c.Get (0), tid);
+  InetSocketAddress local = InetSocketAddress (Ipv4Address ("10.1.1.1"), 80);
+  recvSink->Bind (local);
+  recvSink->SetRecvCallback (MakeCallback (&ReceivePacket));
+
+  Ptr<Socket> source = Socket::CreateSocket (c.Get (1), tid);
+  InetSocketAddress remote = InetSocketAddress (Ipv4Address ("255.255.255.255"), 80);
+  source->SetAllowBroadcast (true);
+  source->Connect (remote);
+
+  // Interferer will send to a different port; we will not see a
+  // "Received packet" message
+  Ptr<Socket> interferer = Socket::CreateSocket (c.Get (2), tid);
+  InetSocketAddress interferingAddr = InetSocketAddress (Ipv4Address ("255.255.255.255"), 49000);
+  interferer->SetAllowBroadcast (true);
+  interferer->Connect (interferingAddr);
+
+  // Tracing
+  wifiPhy.EnablePcap ("wifi-simple-interference", devices.Get (0));
+
+  // Output what we are doing
+  NS_LOG_UNCOND ("Primary packet RSS=" << Prss << " dBm and interferer RSS=" << Irss << " dBm at time offset=" << delta << " ms");
+
+  Simulator::ScheduleWithContext (source->GetNode ()->GetId (),
+                                  Seconds (startTime), &GenerateTraffic, 
+                                  source, PpacketSize, numPackets, interPacketInterval);
+
+  Simulator::ScheduleWithContext (interferer->GetNode ()->GetId (),
+                                  Seconds (startTime + delta/1000000.0), &GenerateTraffic, 
+                                  interferer, IpacketSize, numPackets, interPacketInterval);
+
+  Simulator::Run ();
+  Simulator::Destroy ();
+
+  return 0;
+}
+
+/* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+//
+// Default network topology includes some number of AP nodes specified by
+// the variable nWifis (defaults to two).  Off of each AP node, there are some
+// number of STA nodes specified by the variable nStas (defaults to two).
+// Each AP talks to its associated STA nodes.  There are bridge net devices
+// on each AP node that bridge the whole thing into one network.
+//
+//      +-----+      +-----+            +-----+      +-----+
+//      | STA |      | STA |            | STA |      | STA | 
+//      +-----+      +-----+            +-----+      +-----+
+//    192.168.0.3  192.168.0.4        192.168.0.5  192.168.0.6
+//      --------     --------           --------     --------
+//      WIFI STA     WIFI STA           WIFI STA     WIFI STA
+//      --------     --------           --------     --------
+//        ((*))       ((*))       |      ((*))        ((*))
+//                                |
+//              ((*))             |             ((*))
+//             -------                         -------
+//             WIFI AP   CSMA ========= CSMA   WIFI AP 
+//             -------   ----           ----   -------
+//             ##############           ##############
+//                 BRIDGE                   BRIDGE
+//             ##############           ############## 
+//               192.168.0.1              192.168.0.2
+//               +---------+              +---------+
+//               | AP Node |              | AP Node |
+//               +---------+              +---------+
+//
+
+#include "ns3/core-module.h"
+#include "ns3/mobility-module.h"
+#include "ns3/applications-module.h"
+#include "ns3/wifi-module.h"
+#include "ns3/network-module.h"
+#include "ns3/csma-module.h"
+#include "ns3/internet-module.h"
+#include "ns3/bridge-helper.h"
+#include <vector>
+#include <stdint.h>
+#include <sstream>
+#include <fstream>
+
+using namespace ns3;
+
+int main (int argc, char *argv[])
+{
+  uint32_t nWifis = 2;
+  uint32_t nStas = 2;
+  bool sendIp = true;
+  bool writeMobility = false;
+
+  CommandLine cmd;
+  cmd.AddValue ("nWifis", "Number of wifi networks", nWifis);
+  cmd.AddValue ("nStas", "Number of stations per wifi network", nStas);
+  cmd.AddValue ("SendIp", "Send Ipv4 or raw packets", sendIp);
+  cmd.AddValue ("writeMobility", "Write mobility trace", writeMobility);
+  cmd.Parse (argc, argv);
+
+  NodeContainer backboneNodes;
+  NetDeviceContainer backboneDevices;
+  Ipv4InterfaceContainer backboneInterfaces;
+  std::vector<NodeContainer> staNodes;
+  std::vector<NetDeviceContainer> staDevices;
+  std::vector<NetDeviceContainer> apDevices;
+  std::vector<Ipv4InterfaceContainer> staInterfaces;
+  std::vector<Ipv4InterfaceContainer> apInterfaces;
+
+  InternetStackHelper stack;
+  CsmaHelper csma;
+  Ipv4AddressHelper ip;
+  ip.SetBase ("192.168.0.0", "255.255.255.0");
+
+  backboneNodes.Create (nWifis);
+  stack.Install (backboneNodes);
+
+  backboneDevices = csma.Install (backboneNodes);
+
+  double wifiX = 0.0;
+
+  YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default ();
+  wifiPhy.SetPcapDataLinkType (YansWifiPhyHelper::DLT_IEEE802_11_RADIO); 
+
+  for (uint32_t i = 0; i < nWifis; ++i)
+    {
+      // calculate ssid for wifi subnetwork
+      std::ostringstream oss;
+      oss << "wifi-default-" << i;
+      Ssid ssid = Ssid (oss.str ());
+
+      NodeContainer sta;
+      NetDeviceContainer staDev;
+      NetDeviceContainer apDev;
+      Ipv4InterfaceContainer staInterface;
+      Ipv4InterfaceContainer apInterface;
+      MobilityHelper mobility;
+      BridgeHelper bridge;
+      WifiHelper wifi = WifiHelper::Default ();
+      NqosWifiMacHelper wifiMac = NqosWifiMacHelper::Default ();
+      YansWifiChannelHelper wifiChannel = YansWifiChannelHelper::Default ();
+      wifiPhy.SetChannel (wifiChannel.Create ());
+
+      sta.Create (nStas);
+      mobility.SetPositionAllocator ("ns3::GridPositionAllocator",
+                                     "MinX", DoubleValue (wifiX),
+                                     "MinY", DoubleValue (0.0),
+                                     "DeltaX", DoubleValue (5.0),
+                                     "DeltaY", DoubleValue (5.0),
+                                     "GridWidth", UintegerValue (1),
+                                     "LayoutType", StringValue ("RowFirst"));
+
+
+      // setup the AP.
+      mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
+      mobility.Install (backboneNodes.Get (i));
+      wifiMac.SetType ("ns3::ApWifiMac",
+                       "Ssid", SsidValue (ssid));
+      apDev = wifi.Install (wifiPhy, wifiMac, backboneNodes.Get (i));
+
+      NetDeviceContainer bridgeDev;
+      bridgeDev = bridge.Install (backboneNodes.Get (i), NetDeviceContainer (apDev, backboneDevices.Get (i)));
+
+      // assign AP IP address to bridge, not wifi
+      apInterface = ip.Assign (bridgeDev);
+
+      // setup the STAs
+      stack.Install (sta);
+      mobility.SetMobilityModel ("ns3::RandomWalk2dMobilityModel",
+                                 "Mode", StringValue ("Time"),
+                                 "Time", StringValue ("2s"),
+                                 "Speed", StringValue ("Constant:1.0"),
+                                 "Bounds", RectangleValue (Rectangle (wifiX, wifiX+5.0,0.0, (nStas+1)*5.0)));
+      mobility.Install (sta);
+      wifiMac.SetType ("ns3::StaWifiMac",
+                       "Ssid", SsidValue (ssid),
+                       "ActiveProbing", BooleanValue (false));
+      staDev = wifi.Install (wifiPhy, wifiMac, sta);
+      staInterface = ip.Assign (staDev);
+
+      // save everything in containers.
+      staNodes.push_back (sta);
+      apDevices.push_back (apDev);
+      apInterfaces.push_back (apInterface);
+      staDevices.push_back (staDev);
+      staInterfaces.push_back (staInterface);
+
+      wifiX += 20.0;
+    }
+
+  Address dest;
+  std::string protocol;
+  if (sendIp)
+    {
+      dest = InetSocketAddress (staInterfaces[1].GetAddress (1), 1025);
+      protocol = "ns3::UdpSocketFactory";
+    }
+  else
+    {
+      PacketSocketAddress tmp;
+      tmp.SetSingleDevice (staDevices[0].Get (0)->GetIfIndex ());
+      tmp.SetPhysicalAddress (staDevices[1].Get (0)->GetAddress ());
+      tmp.SetProtocol (0x807);
+      dest = tmp;
+      protocol = "ns3::PacketSocketFactory";
+    }
+
+  OnOffHelper onoff = OnOffHelper (protocol, dest);
+  onoff.SetAttribute ("OnTime", RandomVariableValue (ConstantVariable (1)));
+  onoff.SetAttribute ("OffTime", RandomVariableValue (ConstantVariable (0)));
+  ApplicationContainer apps = onoff.Install (staNodes[0].Get (0));
+  apps.Start (Seconds (0.5));
+  apps.Stop (Seconds (3.0));
+
+  wifiPhy.EnablePcap ("wifi-wired-bridging", apDevices[0]);
+  wifiPhy.EnablePcap ("wifi-wired-bridging", apDevices[1]);
+
+  if (writeMobility)
+    {
+      std::ofstream os;
+      os.open ("wifi-wired-bridging.mob");
+      MobilityHelper::EnableAsciiAll (os);
+    }
+
+  Simulator::Stop (Seconds (5.0));
+  Simulator::Run ();
+  Simulator::Destroy ();
+}
+

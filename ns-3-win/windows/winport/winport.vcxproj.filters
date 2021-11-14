@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="winport.h" />
+    <ClInclude Include="gsl_machine.h" />
+    <ClInclude Include="gsl_math.h" />
+    <ClInclude Include="gsl_sf_result.h" />
+    <ClInclude Include="chebyshev.h" />
+    <ClInclude Include="eval.h" />
+    <ClInclude Include="gsl_errno.h" />
+    <ClInclude Include="gsl_export.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="winport.cc" />
+    <ClCompile Include="stream.cc" />
+    <ClCompile Include="cheb_eval.cc" />
+    <ClCompile Include="erfc.cc" />
+    <ClCompile Include="error.cc" />
+  </ItemGroup>
+</Project>

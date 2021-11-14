@@ -1,0 +1,20 @@
+﻿Build started 4/26/2019 1:51:19 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\MyExample\MyExample.vcxproj" on node 4 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\MyExample.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\MyExample.exe" /INCREMENTAL:NO /NOLOGO "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\*.obj" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\MyExample.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\MyExample.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\MyExample.lib" /MACHINE:X86 "Debug\hello-simulator.obj"
+     1>aarf-wifi-manager.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+         MyExample.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\MyExample.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\MyExample.exe;#1" /manifest Debug\MyExample.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\MyExample.unsuccessfulbuild".
+         Touching "Debug\MyExample.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\MyExample\MyExample.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.68

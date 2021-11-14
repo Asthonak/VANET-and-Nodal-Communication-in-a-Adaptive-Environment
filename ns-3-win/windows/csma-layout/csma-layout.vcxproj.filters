@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="model">
+      <UniqueIdentifier>{ad94cb7b-fc74-49fb-ba21-9bf3f9223186}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\csma-layout\model\csma-star-helper.cc">
+      <Filter>model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\csma-layout\model\csma-star-helper.h">
+      <Filter>model</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

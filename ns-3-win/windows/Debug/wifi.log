@@ -1,0 +1,175 @@
+﻿Build started 4/26/2019 1:50:42 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\wifi\wifi.vcxproj" on node 4 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\ns-3-debug-headers" /I"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\winport" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /D _MBCS /D WIN32 /D NS3_LOG_ENABLE /D NS3_ASSERT_ENABLE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\\" /Fd"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt "..\..\examples\stats\wifi-example-apps.cc" "..\..\src\wifi\helper\athstats-helper.cc" "..\..\src\wifi\helper\nqos-wifi-mac-helper.cc" "..\..\src\wifi\helper\qos-wifi-mac-helper.cc" "..\..\src\wifi\helper\wifi-helper.cc" "..\..\src\wifi\helper\yans-wifi-helper.cc" "..\..\src\wifi\model\aarf-wifi-manager.cc" "..\..\src\wifi\model\aarfcd-wifi-manager.cc" "..\..\src\wifi\model\adhoc-wifi-mac.cc" "..\..\src\wifi\model\amrr-wifi-manager.cc" "..\..\src\wifi\model\amsdu-subframe-header.cc" "..\..\src\wifi\model\ap-wifi-mac.cc" "..\..\src\wifi\model\arf-wifi-manager.cc" "..\..\src\wifi\model\block-ack-agreement.cc" "..\..\src\wifi\model\block-ack-cache.cc" "..\..\src\wifi\model\block-ack-manager.cc" "..\..\src\wifi\model\capability-information.cc" "..\..\src\wifi\model\cara-wifi-manager.cc" "..\..\src\wifi\model\constant-rate-wifi-manager.cc" "..\..\src\wifi\model\ctrl-headers.cc" "..\..\src\wifi\model\dca-txop.cc" "..\..\src\wifi\model\dcf-manager.cc" ..\..\src\wifi\model\dcf.cc "..\..\src\wifi\model\dsss-error-rate-model.cc" "..\..\src\wifi\model\edca-txop-n.cc" "..\..\src\wifi\model\error-rate-model.cc" "..\..\src\wifi\model\ideal-wifi-manager.cc" "..\..\src\wifi\model\interference-helper.cc" "..\..\src\wifi\model\mac-low.cc" "..\..\src\wifi\model\mac-rx-middle.cc" "..\..\src\wifi\model\mac-tx-middle.cc" "..\..\src\wifi\model\mgt-headers.cc" "..\..\src\wifi\model\minstrel-wifi-manager.cc" "..\..\src\wifi\model\msdu-aggregator.cc" "..\..\src\wifi\model\msdu-standard-aggregator.cc" "..\..\src\wifi\model\nist-error-rate-model.cc" "..\..\src\wifi\model\onoe-wifi-manager.cc" "..\..\src\wifi\model\originator-block-ack-agreement.cc" "..\..\src\wifi\model\qos-blocked-destinations.cc" "..\..\src\wifi\model\qos-tag.cc" "..\..\src\wifi\model\qos-utils.cc" "..\..\src\wifi\model\random-stream.cc" "..\..\src\wifi\model\regular-wifi-mac.cc" "..\..\src\wifi\model\rraa-wifi-manager.cc" ..\..\src\wifi\model\ssid.cc "..\..\src\wifi\model\sta-wifi-mac.cc" "..\..\src\wifi\model\status-code.cc" "..\..\src\wifi\model\supported-rates.cc" "..\..\src\wifi\model\wifi-channel.cc" "..\..\src\wifi\model\wifi-information-element-vector.cc" "..\..\src\wifi\model\wifi-information-element.cc" "..\..\src\wifi\model\wifi-mac-header.cc" "..\..\src\wifi\model\wifi-mac-queue.cc" "..\..\src\wifi\model\wifi-mac-trailer.cc" "..\..\src\wifi\model\wifi-mac.cc" "..\..\src\wifi\model\wifi-mode.cc" "..\..\src\wifi\model\wifi-net-device.cc" "..\..\src\wifi\model\wifi-phy-state-helper.cc" "..\..\src\wifi\model\wifi-phy.cc" "..\..\src\wifi\model\wifi-remote-station-manager.cc" "..\..\src\wifi\model\yans-error-rate-model.cc" "..\..\src\wifi\model\yans-wifi-channel.cc" "..\..\src\wifi\model\yans-wifi-phy.cc"
+         yans-wifi-phy.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-wifi-phy.cc(517): warning C4244: 'initializing' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-wifi-phy.cc(786): warning C4244: 'initializing' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+         yans-wifi-channel.cc
+         yans-error-rate-model.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-error-rate-model.cc(192): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-error-rate-model.cc(202): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-error-rate-model.cc(217): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-error-rate-model.cc(229): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-error-rate-model.cc(244): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-error-rate-model.cc(256): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-error-rate-model.cc(271): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\yans-error-rate-model.cc(283): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+         wifi-remote-station-manager.cc
+         wifi-phy.cc
+         wifi-phy-state-helper.cc
+         wifi-net-device.cc
+         wifi-mode.cc
+         wifi-mac.cc
+         wifi-mac-trailer.cc
+         wifi-mac-queue.cc
+         wifi-mac-header.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\wifi-mac-header.cc(782): warning C4244: 'return' : conversion from 'const uint16_t' to 'uint8_t', possible loss of data
+         wifi-information-element.cc
+         wifi-information-element-vector.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\wifi-information-element-vector.cc(92): warning C4065: switch statement contains 'default' but no 'case' labels
+         wifi-channel.cc
+         supported-rates.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\supported-rates.cc(30): warning C4355: 'this' : used in base member initializer list
+         status-code.cc
+         sta-wifi-mac.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\sta-wifi-mac.cc(505): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\sta-wifi-mac.cc(508): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\sta-wifi-mac.cc(541): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+         ssid.cc
+         rraa-wifi-manager.cc
+         Generating Code...
+         Compiling...
+         regular-wifi-mac.cc
+         random-stream.cc
+         qos-utils.cc
+         qos-tag.cc
+         qos-blocked-destinations.cc
+         originator-block-ack-agreement.cc
+         onoe-wifi-manager.cc
+         nist-error-rate-model.cc
+         msdu-standard-aggregator.cc
+         msdu-aggregator.cc
+         minstrel-wifi-manager.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\minstrel-wifi-manager.cc(622): warning C4244: '=' : conversion from 'int64_t' to 'uint32_t', possible loss of data
+         mgt-headers.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\mgt-headers.cc(204): warning C4244: 'argument' : conversion from 'const uint64_t' to 'uint16_t', possible loss of data
+         mac-tx-middle.cc
+         mac-rx-middle.cc
+         mac-low.cc
+         interference-helper.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\interference-helper.cc(254): warning C4244: 'initializing' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+         ideal-wifi-manager.cc
+         error-rate-model.cc
+         edca-txop-n.cc
+         dsss-error-rate-model.cc
+         Generating Code...
+         Compiling...
+         dcf.cc
+         dcf-manager.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\dcf-manager.cc(301): warning C4244: '=' : conversion from 'int64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\dcf-manager.cc(541): warning C4244: 'initializing' : conversion from 'int64_t' to 'uint32_t', possible loss of data
+         dca-txop.cc
+         ctrl-headers.cc
+         constant-rate-wifi-manager.cc
+         cara-wifi-manager.cc
+         capability-information.cc
+         block-ack-manager.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\block-ack-manager.cc(352): warning C4244: 'argument' : conversion from 'uint16_t' to 'uint8_t', possible loss of data
+         block-ack-cache.cc
+         block-ack-agreement.cc
+         arf-wifi-manager.cc
+         ap-wifi-mac.cc
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\ap-wifi-mac.cc(278): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\ap-wifi-mac.cc(284): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\ap-wifi-mac.cc(496): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+     1>c:\users\ethan\desktop\cpe 400 final project\ns-3-win\src\wifi\model\ap-wifi-mac.cc(516): warning C4244: 'argument' : conversion from 'uint64_t' to 'uint32_t', possible loss of data
+         amsdu-subframe-header.cc
+         amrr-wifi-manager.cc
+         adhoc-wifi-mac.cc
+         aarfcd-wifi-manager.cc
+         aarf-wifi-manager.cc
+         yans-wifi-helper.cc
+         wifi-helper.cc
+         qos-wifi-mac-helper.cc
+         Generating Code...
+         Compiling...
+         nqos-wifi-mac-helper.cc
+         athstats-helper.cc
+         wifi-example-apps.cc
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi.lib" /NOLOGO "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-example-apps.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\athstats-helper.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\nqos-wifi-mac-helper.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\qos-wifi-mac-helper.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-helper.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\yans-wifi-helper.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\aarf-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\aarfcd-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\adhoc-wifi-mac.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\amrr-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\amsdu-subframe-header.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\ap-wifi-mac.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\arf-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\block-ack-agreement.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\block-ack-cache.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\block-ack-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\capability-information.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\cara-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\constant-rate-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\ctrl-headers.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\dca-txop.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\dcf-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\dcf.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\dsss-error-rate-model.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\edca-txop-n.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\error-rate-model.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\ideal-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\interference-helper.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\mac-low.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\mac-rx-middle.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\mac-tx-middle.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\mgt-headers.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\minstrel-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\msdu-aggregator.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\msdu-standard-aggregator.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\nist-error-rate-model.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\onoe-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\originator-block-ack-agreement.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\qos-blocked-destinations.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\qos-tag.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\qos-utils.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\random-stream.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\regular-wifi-mac.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\rraa-wifi-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\ssid.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\sta-wifi-mac.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\status-code.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\supported-rates.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-channel.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-information-element-vector.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-information-element.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-mac-header.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-mac-queue.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-mac-trailer.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-mac.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-mode.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-net-device.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-phy-state-helper.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-phy.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi-remote-station-manager.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\yans-error-rate-model.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\yans-wifi-channel.obj"
+         "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\yans-wifi-phy.obj"
+         wifi.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi.lib
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi.unsuccessfulbuild".
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\wifi.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\wifi\wifi.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:37.14

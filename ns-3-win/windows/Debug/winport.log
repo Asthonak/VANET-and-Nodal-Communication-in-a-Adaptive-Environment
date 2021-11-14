@@ -1,0 +1,95 @@
+﻿Build started 4/26/2019 1:51:45 PM.
+     1>Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\winport\winport.vcxproj" on node 8 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\winport.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Lib:
+         All outputs are up-to-date.
+         winport.vcxproj -> C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\winport.lib
+       PostBuildEvent:
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\energy\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\error-model\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\ipv6\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\matrix-topology\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\mobility\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\naming\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\socket\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\stats\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\stats\*.h" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tcp\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tutorial\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\udp\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\udp-client-server\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         copy "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\*.cc" "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\\examples_all"
+         
+         :VCEnd
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\energy\energy-model-example.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\error-model\simple-error-model.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\ipv6\fragmentation-ipv6.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\ipv6\icmpv6-redirect.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\ipv6\loose-routing-ipv6.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\ipv6\ping6.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\ipv6\radvd-two-prefix.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\ipv6\radvd.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\ipv6\test-ipv6.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\matrix-topology\matrix-topology.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\mobility\ns2-mobility-trace.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\naming\object-names.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\socket\socket-bound-static-routing.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\socket\socket-bound-tcp-static-routing.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\stats\wifi-example-apps.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\stats\wifi-example-sim.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\stats\wifi-example-apps.h
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tcp\star.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tcp\tcp-bulk-send.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tcp\tcp-large-transfer.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tcp\tcp-nsc-lfn.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tcp\tcp-nsc-zoo.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tcp\tcp-star-server.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tutorial\fifth.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tutorial\first.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tutorial\fourth.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tutorial\hello-simulator.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tutorial\second.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tutorial\sixth.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\tutorial\third.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\udp\udp-echo.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\udp-client-server\udp-client-server.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\udp-client-server\udp-trace-client-server.cc
+                 1 file(s) copied.
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\mixed-wireless.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\multirate.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\ofdm-validation.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\simple-wifi-frame-aggregation.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-adhoc.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-ap.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-blockack.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-clear-channel-cmu.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-hidden-terminal.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-simple-adhoc-grid.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-simple-adhoc.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-simple-infra.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-simple-interference.cc
+         C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\..\examples\wireless\wifi-wired-bridging.cc
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\winport.unsuccessfulbuild".
+         Touching "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\Debug\winport.lastbuildstate".
+     1>Done Building Project "C:\Users\Ethan\Desktop\CPE 400 Final Project\ns-3-win\windows\winport\winport.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.12
